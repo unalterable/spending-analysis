@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const accounting = require('accounting');
 const moment = require('moment');
-const { importCsv } = require('./csv-import-export')
 
 const getNewId = (i => () => i++)(0);
 
@@ -32,7 +31,7 @@ const collectTransactions = transactions => {
 };
 
 const calcStartingBalance = totalsByDate => {
-  const firstTransaction = collectTransactions(totalsByDate[0].transactions).find(t => t.id() === 0)
+  const firstTransaction = _.minBy(collectTransactions(totalsByDate[0].transactions), t => t.id());
   return firstTransaction.balance() - firstTransaction.amount();
 };
 

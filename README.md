@@ -7,7 +7,7 @@ This is a base template for a simple service using Node/Webpack/React/Express. D
 To run the application:
 ```
 npm i
-npm run build
+npm run build-assets
 npm start
 ```
 
@@ -22,7 +22,7 @@ npm i
 
 * In one terminal start webpack with a watch (so changes in the UI are live-updated):
 ```
-npm run assets:watch
+npm run build-assets:watch
 ```
 
 * In the second terminal window start the server:

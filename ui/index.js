@@ -1,9 +1,8 @@
-import axios from 'axios'
+import React from 'react';
+import ReactDom from 'react-dom';
+import Application from './components/application.jsx';
 
-const canvass = document.getElementById('canvass');
-
-canvass.innerHTML = 'Initial Data'
-
-axios.get('http://localhost:3000/data').then(({ data }) => {
-  canvass.innerHTML = JSON.stringify(data);
-})
+ReactDom.render(
+  <Application />,
+  document.getElementById('app')
+);

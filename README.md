@@ -1,6 +1,6 @@
-# Base Node/Webpack/React/Express Application
+# A bank statement analyser
 
-This is a base template for a simple service using Node/Webpack/React/Express. Designed to be extremely simple.
+An application for analysing spending patterns from a bank statement
 
 ## Installation
 

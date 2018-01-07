@@ -22,12 +22,12 @@ npm i
 
 * In one terminal start webpack with a watch (so changes in the UI are live-updated):
 ```
-npm build:watch
+npm run assets:watch
 ```
 
 * In the second terminal window start the server:
 ```
-npm start
+npm run server:watch
 ```
 
 ## License

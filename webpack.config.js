@@ -12,9 +12,13 @@ module.exports = {
         test: /\.js[x]?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015-without-strict', 'react']
         }
-      }
+      },
+      {
+        test: /\.js[x]?$/,
+        loader: 'ify-loader'
+      },
     ]
   }
 };

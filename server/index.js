@@ -6,7 +6,7 @@ const app = express();
 
 
 const port = 3000;
-const base = `<html><head></head><body><div id="app"></div><script src="./assets/bundle.js"></script></body></html>`;
+const base = `<html><head><script src="https://cdn.plot.ly/plotly-latest.min.js"></script></head><body><div id="app"></div><script src="./assets/bundle.js"></script></body></html>`;
 
 app.use('/assets', express.static('assets'));
 

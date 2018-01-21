@@ -1,7 +1,7 @@
 const fs = require('fs')
 const parseCSV = require('csv-parse/lib/sync')
 const store = require('./store');
-const analysis = require('./analysis2')
+const analysis = require('./analysis')
 
 const getFile = (filePath) => fs.readFileSync(filePath).toString();
 

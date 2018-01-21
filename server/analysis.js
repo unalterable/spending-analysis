@@ -10,14 +10,14 @@ const parseSterlingToPennies = (sterling) => parseInt(Math.round(accounting.unfo
 const newTransactionObj = (transaction, modifiers) => {
   const id = getNewId();
   const methods = {
-    id: () => id,
-    transaction: () => transaction,
-    date: () => moment(modifiers.date || transaction.Date, 'DD-MM-YYYY').toDate(),
-    amount: () => parseSterlingToPennies(transaction.Value),
-    balance: () => parseSterlingToPennies(transaction.Balance),
-    description: () => transaction.Description,
-    toString: () => ({ id, transaction }),
-    addModifier: newModifiers => newTransactionObj(transaction, Object.assign({}, modifiers, newModifiers)),
+    id: id,
+    transaction: transaction,
+    date: moment(modifiers.date || transaction.Date, 'DD-MM-YYYY').toDate(),
+    amount: parseSterlingToPennies(transaction.Value),
+    balance: parseSterlingToPennies(transaction.Balance),
+    description: transaction.Description,
+    toString: ({ id, transaction }),
+    /* addModifier: newTransactionObj(transaction, Object.assign({}, modifiers, newModifiers)),*/
   }
   return methods;
 }
@@ -31,12 +31,12 @@ const collectTransactions = transactions => {
 };
 
 const calcStartingBalance = totalsByDate => {
-  const firstTransaction = _.minBy(collectTransactions(totalsByDate[0].transactions), t => t.id());
-  return firstTransaction.balance() - firstTransaction.amount();
+  const firstTransaction = _.minBy(collectTransactions(totalsByDate[0].transactions), t => t.id);
+  return firstTransaction.balance - firstTransaction.amount;
 };
 
-const minDate = transactions => _.minBy(transactions, t => t.date()).date();
-const maxDate = transactions => _.maxBy(transactions, t => t.date()).date();
+const minDate = transactions => _.minBy(transactions, t => t.date).date;
+const maxDate = transactions => _.maxBy(transactions, t => t.date).date;
 
 const createOrderedDateRange = (firstDay, lastDay) => {
   const start = moment(firstDay)
@@ -49,26 +49,26 @@ const createOrderedDateRange = (firstDay, lastDay) => {
 }
 
 const isRent = (transaction) => {
-  return transaction.description().includes('rent')
+  return transaction.description.includes('rent')
 }
 
 const category = (transaction) => {
   if (isRent(transaction))
     return 'rent';
-  if (transaction.amount() > 0)
+  if (transaction.amount > 0)
     return 'income';
   return 'spending';
 };
 
 const keyByDateAndCategory = (transactions) => {
   return transactions.reduce((memo, t) =>
-    _.update(memo, [t.date(), category(t)], val => (val || []).concat(t)),
+    _.update(memo, [t.date, category(t)], val => (val || []).concat(t)),
     {}
   )
 };
 
 const total = (transactions) => {
-  return (transactions || []).reduce((sum, t) => sum + t.amount(), 0)
+  return (transactions || []).reduce((sum, t) => sum + t.amount, 0)
 };
 
 
@@ -114,7 +114,7 @@ const checkBalances = (balances) => {
   return balances.every((day, i) => {
     const allTransactions = collectTransactions(day.transactions);
     if(allTransactions.length > 0){
-      const possibleBalances = allTransactions.map(t => t.balance());
+      const possibleBalances = allTransactions.map(t => t.balance);
       if(!possibleBalances.includes(day.balance)){
         throw new Error(`Balance incorrect for transaction ${i}, it is ${day.balance} and is should be one of ${possibleBalances}`)
       }
@@ -132,3 +132,4 @@ const createAnalysis = (statement) => {
 };
 
 module.exports = createAnalysis;
+

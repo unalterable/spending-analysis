@@ -71,6 +71,7 @@ const total = (transactions) => {
   return (transactions || []).reduce((sum, t) => sum + t.amount, 0)
 };
 
+const getMonth = (date) => moment(date).format('MM-YYYY');
 
 const calcTotalsByDate = (transactions) => {
   const transactionsByDateAndCategory = keyByDateAndCategory(transactions);
@@ -89,7 +90,7 @@ const calcTotalsByDate = (transactions) => {
 const calcMonthlyTotals = (totalsByDate) => {
   const monthlyTotals = {};
   totalsByDate.forEach(dayTotals => {
-    const month = moment(dayTotals.date).format('MM-YYYY')
+    const month = getMonth(dayTotals.date);
     if(!monthlyTotals[month])
       monthlyTotals[month] = {spending: 0, rent: 0, income: 0 }
     monthlyTotals[month].spending += dayTotals.spending;
@@ -102,11 +103,14 @@ const calcMonthlyTotals = (totalsByDate) => {
 const addBalances = (totalsByDate, monthlyTotals) => {
   let spendingSoFarThisMonth = 0;
   let balance = calcStartingBalance(totalsByDate);
+  let amortisedBalance = balance;
   return totalsByDate.map(dayTotals => {
     const dayOfMonth = moment(dayTotals.date).date();
+    const totalMonthlyRentAndIncome = monthlyTotals[getMonth(dayTotals.date)].rent + monthlyTotals[getMonth(dayTotals.date)].income;
     spendingSoFarThisMonth = (dayOfMonth !== 1 ? spendingSoFarThisMonth : 0) + dayTotals.spending;
     balance += (dayTotals.spending + dayTotals.income + dayTotals.rent)
-    return Object.assign({}, dayTotals, { spendingSoFarThisMonth, balance })
+    amortisedBalance += (dayTotals.spending + totalMonthlyRentAndIncome/(moment(dayTotals.date).daysInMonth()))
+    return Object.assign({}, dayTotals, { spendingSoFarThisMonth, balance, amortisedBalance })
   })
 };
 

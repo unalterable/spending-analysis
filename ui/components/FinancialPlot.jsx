@@ -26,7 +26,12 @@ const populateApplication = (data) => {
     y: data.map(datum => formatCurrency(datum.spendingSoFarThisMonth)),
     mode: 'lines',
   };
-  return [balance, spendingSoFarThisMonth];
+  const amortisedBalance = {
+    x: xAxis,
+    y: data.map(datum => formatCurrency(datum.amortisedBalance)),
+    mode: 'lines',
+  };
+  return [balance, spendingSoFarThisMonth, amortisedBalance];
 };
 
 const FinancialPlot = ({data}) => {

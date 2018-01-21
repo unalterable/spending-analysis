@@ -2,6 +2,10 @@ const _ = require('lodash');
 const accounting = require('accounting');
 const moment = require('moment').utc;
 
+const rentChecker = require('./rent-checker.js');
+const rentStrings = require('../../data/rent-strings.js');
+const isRent = rentChecker(rentStrings);
+
 const getNewId = (i => () => i++)(0);
 
 const parseSterlingToPennies = (sterling) => parseInt(Math.round(accounting.unformat(sterling)*100));
@@ -46,10 +50,6 @@ const createOrderedDateRange = (firstDay, lastDay) => {
     range.push(day.toDate());
   }
   return range;
-}
-
-const isRent = (transaction) => {
-  return transaction.description.includes('rent')
 }
 
 const category = (transaction) => {

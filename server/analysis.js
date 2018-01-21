@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const accounting = require('accounting');
-const moment = require('moment');
+const moment = require('moment').utc;
 
 const getNewId = (i => () => i++)(0);
 

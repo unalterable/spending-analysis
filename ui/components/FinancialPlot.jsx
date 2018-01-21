@@ -16,22 +16,26 @@ const populateApplication = (data) => {
     return defaultApplication;
   }
   const xAxis = data.map(datum => datum.date);
-  const balance = {
-    x: xAxis,
-    y: data.map(datum => formatCurrency(datum.balance)),
-    mode: 'lines',
-  };
-  const spendingSoFarThisMonth = {
-    x: xAxis,
-    y: data.map(datum => formatCurrency(datum.spendingSoFarThisMonth)),
-    mode: 'lines',
-  };
-  const amortisedBalance = {
-    x: xAxis,
-    y: data.map(datum => formatCurrency(datum.amortisedBalance)),
-    mode: 'lines',
-  };
-  return [balance, spendingSoFarThisMonth, amortisedBalance];
+  return [
+    {
+      name: 'Balance',
+      x: xAxis,
+      y: data.map(datum => formatCurrency(datum.balance)),
+      mode: 'lines',
+    },
+    {
+      name: 'Spending So Far This Month',
+      x: xAxis,
+      y: data.map(datum => formatCurrency(datum.spendingSoFarThisMonth)),
+      mode: 'lines',
+    },
+    {
+      name: 'Amortised Balance',
+      x: xAxis,
+      y: data.map(datum => formatCurrency(datum.amortisedBalance)),
+      mode: 'lines',
+    },
+  ]
 };
 
 const FinancialPlot = ({data}) => {

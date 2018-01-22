@@ -29,7 +29,7 @@ const blankRow = (
 const createRow = row => (
   <tr key={row.date} >
     <td>{formatDate(row.date)}</td>
-    <td onClick={() => log(row.date, row.transactions.spending)}>{formatCurrency(row.spending)}</td>
+    <td style={row.spending < -50000 ? {color: '#F00'} : {}} onClick={() => log(row.date, row.transactions.spending)}>{formatCurrency(row.spending)}</td>
     <td onClick={() => log(row.date, row.transactions.income)}>{formatCurrency(row.income)}</td>
     <td onClick={() => log(row.date, row.transactions.rent)}>{formatCurrency(row.rent)}</td>
     <td>{formatCurrency(row.balance)}</td>

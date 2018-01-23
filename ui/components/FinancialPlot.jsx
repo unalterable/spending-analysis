@@ -35,12 +35,13 @@ const populateApplication = (data) => {
       y: data.map(datum => formatCurrency(datum.amortisedBalance)),
       mode: 'lines',
     },
-  ]
+  ];
 };
 
 const FinancialPlot = ({data}) => {
   const layout = {
-    title: 'A Fancy Plot'
+    title: 'A Fancy Plot',
+    width: 1200,
   };
   return (
     <Plot

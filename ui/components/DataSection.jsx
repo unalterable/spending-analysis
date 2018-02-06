@@ -5,15 +5,17 @@ import Day from './Day.jsx';
 
 
 const blankRow = (
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
 );
 
 const DataSection = ({data}) => {
@@ -35,9 +37,7 @@ const DataSection = ({data}) => {
             <th>Spending This Month</th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        {rows}
       </table>
     </div>
   );

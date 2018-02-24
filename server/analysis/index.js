@@ -11,7 +11,7 @@ const collectTransactions = transactions => {
   return [].concat(
     transactions.spending || [],
     transactions.rent || [],
-    transactions.income || [],
+    transactions.income || []
   )
 };
 

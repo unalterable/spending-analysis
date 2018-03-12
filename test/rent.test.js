@@ -1,6 +1,6 @@
 const expect = require('expect.js');
 
-const rentChecker = require('../server/analysis/rent-checker.js');
+const rentChecker = require('../src/server/analysis/rent-checker.js');
 
 describe('Rent Checker', ()=>{
   const isRent = rentChecker([

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "node src/server/index.js",
     "test": "mocha test/",
-    "server:watch": "nodemon --ignore ui/ --ignore build/ server/index.js",
+    "server:watch": "nodemon --ignore src/ui/ --ignore build/ src/server/index.js",
     "lint": "eslint --ext .js,.jsx .",
     "build-assets": "webpack --config ./webpack.config.js",
     "build-assets:watch": "webpack --watch"

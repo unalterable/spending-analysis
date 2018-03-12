@@ -4,7 +4,7 @@ const moment = require('moment').utc;
 const newTransactionObj = require('./transaction.js')
 
 const rentChecker = require('./rent-checker.js');
-const rentStrings = require('../../data/rent-strings.js');
+const rentStrings = require('../../../data/rent-strings.js');
 const isRent = rentChecker(rentStrings);
 
 const collectTransactions = transactions => {

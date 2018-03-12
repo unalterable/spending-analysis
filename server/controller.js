@@ -12,8 +12,9 @@ module.exports = {
     return res.json(thisAnalysis);
   },
   saveTransactions: (req, res) => {
-    const newData = [].concat(req.body);
-    return store.insertTransactions(newData)
+    /* const newData = [].concat(req.body);*/
+    const csv = parseCSV(getFile('./data/statement.csv'), {columns: true})
+    return store.insertTransactions(csv)
       .then(() => res.sendStatus(204))
   },
 }

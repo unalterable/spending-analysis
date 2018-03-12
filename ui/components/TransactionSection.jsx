@@ -34,7 +34,7 @@ const TransactionSection = (transactionGroups) => (
   <table style={tableStyle}>
     {
       Object.keys(transactionGroups).length === 0 ?
-      ( <tr><td colSpan={4}>No Transactions</td></tr>) :
+      (<tbody><tr><td colSpan={4}>No Transactions</td></tr></tbody>) :
       Object.keys(transactionGroups).map(name => transactionGroup(name, transactionGroups[name]))
     }
   </table>

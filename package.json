@@ -1,11 +1,11 @@
 {
-  "name": "spending",
+  "name": "base-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webpack --config ./webpack.config.js && node src/server/index.js",
     "test": "mocha test/*.test.js",
-    "start": "node server/index.js",
     "server:watch": "nodemon --ignore ui/ --ignore build/ src/server/index.js",
     "lint": "eslint --ext .js,.jsx .",
     "build-assets": "webpack --config ./webpack.config.js",

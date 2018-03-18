@@ -96,7 +96,7 @@ const addBalances = (totalsByDate, monthlyTotals) => {
 };
 
 const checkBalances = (balances) => {
-  return balances.every((day, i) => {
+  return balances.forEach((day, i) => {
     const allTransactions = collectTransactions(day.transactions);
     if(allTransactions.length > 0){
       const possibleBalances = allTransactions.map(t => t.balance);

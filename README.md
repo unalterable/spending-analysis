@@ -20,6 +20,11 @@ The easiest way to develop this application is by running 2 processes:
 npm i
 ```
 
+* Then enter the test data into the DB:
+```
+npm run stub-data
+```
+
 * In one terminal start webpack with a watch (so changes in the UI are live-updated):
 ```
 npm run build-assets:watch

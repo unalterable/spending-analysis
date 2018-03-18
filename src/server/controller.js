@@ -5,10 +5,12 @@ const analysis = require('./analysis')
 
 
 module.exports = {
-  data: (req, res) => store.getAllTransactions()
-    .then(analysis)
-    .then(json => res.json(json))
-    .catch(err => { console.error(err)  }),
+  data: (req, res) =>
+    Promise.all([store.getAllTransactions(), store.getAllRentStrings()])
+      .then(([statement, rentStrings]) => analysis({ statement, rentStrings }))
+      .then(json => res.json(json))
+      .catch(console.error),
+
   saveTransactions: (req, res) => {
     /* const newData = [].concat(req.body);*/
     return store.insertTransactions([])

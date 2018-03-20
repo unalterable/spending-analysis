@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectId;
 const _  = require('lodash');
 const url = 'mongodb://localhost:27017/';
 
-const initStoreActions = (dbName) =>
+const initStoreActions = dbName =>
   MongoClient.connect(url)
     .then(connection => {
       const db = connection.db(dbName);

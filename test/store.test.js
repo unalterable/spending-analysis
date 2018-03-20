@@ -1,10 +1,10 @@
-const MongoClient = require('mongodb').MongoClient
 const _  = require('lodash');
 const expect = require('expect.js')
+const { storeHelper } = require('./helpers.js');
 
 const initStore = require('../src/server/store.js');
-const url = 'mongodb://localhost:27017/';
 const dbName = 'base_app_test';
+const coll = 'collection1'
 
 const testDoc = {
   prop1: "val1",
@@ -15,17 +15,6 @@ const testDocs = [
   { num: 0, documentProp1: 'test value1' },
   { num: 1, documentProp2: 'test value2' },
 ];
-
-const storeHelper = {
-  getAll: (dbName, collection) => MongoClient.connect(url)
-    .then(db => db.db(dbName).collection(collection).find({}).toArray()
-      .then(result => {
-        db.close();
-        return result})),
-  removeAll: (dbName, collection) => MongoClient.connect(url)
-    .then(db => db.db(dbName).collection(collection).remove({})
-      .then(result => db.close())),
-};
 
 describe('store', () => {
   let dbConnection;
@@ -38,7 +27,7 @@ describe('store', () => {
 
   after(() => dbConnection.close());
 
-  beforeEach(() => storeHelper.removeAll(db, coll));
+  beforeEach(() => storeHelper.removeAll(dbName, coll));
 
   it('saves a document', () =>
     testCollection.insert(testDoc)

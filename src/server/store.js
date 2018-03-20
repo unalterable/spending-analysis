@@ -3,20 +3,24 @@ const ObjectId = require('mongodb').ObjectId;
 const _  = require('lodash');
 const url = 'mongodb://localhost:27017/';
 
-const initStoreActions = (dbName, collection) => ({
-  getAll: () => MongoClient.connect(url)
-    .then(db => db.db(dbName).collection(collection).find({}).toArray()
-      .then(result => db.close()
-        .then(() => result))),
-  insert: objOrArr => MongoClient.connect(url)
-    .then(db => db.db(dbName).collection(collection).insert(_.cloneDeep(objOrArr))
-      .then(() => db.close())),
-  update: (query, changes) => MongoClient.connect(url)
-    .then(db => db.db(dbName).collection(collection).findOneAndUpdate(query, { $set: _.cloneDeep(changes) })
-      .then(() => db.close())),
-  delete: query => MongoClient.connect(url)
-    .then(db => db.db(dbName).collection(collection).deleteOne(query)
-      .then(() => db.close())),
-});
+const initStoreActions = (dbName) =>
+  MongoClient.connect(url)
+    .then(connection => {
+      const db = connection.db(dbName);
+
+      const collection1 = db.collection('collection1');
+
+      return {
+        connection: connection,
+        collections: {
+          collection1: {
+            getAll: () => collection1.find({}).toArray(),
+            insert: objOrArr => collection1.insert(_.cloneDeep(objOrArr)),
+            update: (query, changes) => collection1.findOneAndUpdate(query, { $set: _.cloneDeep(changes) }),
+            delete: query => collection1.deleteOne(query),
+          }
+        },
+      }
+    });
 
 module.exports = initStoreActions;

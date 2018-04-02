@@ -1,7 +1,16 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import FinancialPlot from './FinancialPlot.jsx'
-import DataSection from './DataSection.jsx'
+import Statement from './Statement.jsx'
+import Importer from './Importer.jsx';
+
+const Main = ({ data}) => (
+  <div>
+    <FinancialPlot data={data} />
+    <Statement data={data} />
+  </div>
+);
 
 class Application extends React.Component {
 
@@ -13,10 +22,17 @@ class Application extends React.Component {
 
   render () {
     return (
-      <div>
-        <FinancialPlot data={this.state.data} />
-        <DataSection data={this.state.data} />
-      </div>
+      <Router>
+        <div>
+          <div>
+            <Link to="/">Home</Link>
+            <Link to="/importer">Importer</Link>
+          </div>
+          <hr />
+          <Route exact path="/" render={() => <Main data={this.state.data} />} />
+          <Route path="/importer" component={Importer} />
+        </div>
+      </Router>
     );
   }
 };

@@ -18,7 +18,7 @@ const blankRow = (
   </tbody>
 );
 
-const DataSection = ({data}) => {
+const Statement = ({data}) => {
   const rows = data ? data.reverse().map(row => (
     <Day key={row.date} {...row} />
   )) : blankRow;
@@ -43,5 +43,5 @@ const DataSection = ({data}) => {
   );
 };
 
-export default DataSection;
+export default Statement;
 

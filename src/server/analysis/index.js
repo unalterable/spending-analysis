@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment').utc;
 
-const newTransactionObj = require('./transaction.js')
+const newTransactionObj = require('../../shared/transaction.js')
 const rentChecker = require('./rent-checker.js');
 
 const createAnalysis = ({ statement, rentStrings }) => {

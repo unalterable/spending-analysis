@@ -12,8 +12,8 @@ module.exports = {
       .catch(console.error),
 
   saveTransactions: (req, res) => {
-    /* const newData = [].concat(req.body);*/
-    return store.insertTransactions([])
+    const newData = [].concat(req.body);
+    return store.insertTransactions(newData)
       .then(() => res.sendStatus(204))
   },
 }

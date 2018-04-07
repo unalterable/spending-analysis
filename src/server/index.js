@@ -10,6 +10,7 @@ const base = `<html><head></script></head><body><div id="app"></div><script src=
 app.use('/assets', express.static('assets'));
 
 app.get('/', (req, res) => res.send(base))
+app.get('/importer', (req, res) => res.send(base))
 app.get('/data', controller.data)
 
 app.use(bodyParser.json());

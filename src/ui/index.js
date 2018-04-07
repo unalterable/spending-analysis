@@ -4,7 +4,4 @@ import Application from './components/Application.jsx';
 
 const container = document.getElementById('app');
 
-ReactDom.render(
-  <Application />,
-  container,
-);
+ReactDom.render(<Application />, container);

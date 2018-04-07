@@ -6,7 +6,7 @@ describe('Rent Checker', ()=>{
   const isRent = rentChecker([
     'rent',
     'Blob',
-  ])
+  ]);
 
   it('returns true when given a rent transaction', ()=>{
     expect(isRent({ description: 'sdijf rent'})).to.be(true);

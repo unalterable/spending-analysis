@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from 'axios';
-import FinancialPlot from './FinancialPlot.jsx'
-import Statement from './Statement.jsx'
+import FinancialPlot from './FinancialPlot.jsx';
+import Statement from './Statement.jsx';
 import Importer from './Importer.jsx';
 
 const Main = ({ data}) => (
@@ -16,7 +16,7 @@ class Application extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { data: null }
+    this.state = { data: null };
     axios.get('http://localhost:3000/data').then(({ data }) => this.setState({ data }));
   }
 
@@ -35,6 +35,6 @@ class Application extends React.Component {
       </Router>
     );
   }
-};
+}
 
 export default Application;

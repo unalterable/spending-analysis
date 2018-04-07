@@ -1,6 +1,6 @@
 import React from 'react';
 import TransactionTable from './TransactionTable.jsx';
-import { formatTitle } from '../utils/format.js'
+import { formatTitle } from '../utils/format.js';
 
 const TransactionSection = (transactionGroups) => {
   if(Object.keys(transactionGroups).length === 0) {
@@ -11,8 +11,8 @@ const TransactionSection = (transactionGroups) => {
       <span>{formatTitle(name)}</span>
       <TransactionTable transactions={transactionGroups[name]} />
     </div>
-  ))
-}
+  ));
+};
 
 
 export default TransactionSection;

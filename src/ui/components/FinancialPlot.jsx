@@ -1,5 +1,5 @@
 import React from 'react';
-import Plot from 'react-plotly.js'
+import Plot from 'react-plotly.js';
 
 const formatCurrency = num => num/100;
 
@@ -8,7 +8,7 @@ const defaultApplication = [{
   mode: 'lines+points',
   x: [],
   y: [],
-  marker: {color: 'red'}
+  marker: {color: 'red'},
 }];
 
 const populateApplication = (data) => {
@@ -47,7 +47,7 @@ const FinancialPlot = ({data}) => {
     <Plot
       data={populateApplication(data)}
       layout={layout}
-      onClick={console.log}
+      onClick={console.log /*eslint-disable-line no-console*/}
     />
   );
 };

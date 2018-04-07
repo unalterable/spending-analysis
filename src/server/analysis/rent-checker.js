@@ -2,6 +2,6 @@ const rentChecker = rentStrings => {
   const isRent = (transaction) => {
     return rentStrings.some((string) => transaction.description.includes(string));
   };
-  return isRent
+  return isRent;
 };
 module.exports = rentChecker;

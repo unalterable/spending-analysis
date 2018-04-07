@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = {
   entry: './src/ui/index.js',
   output: {
-    path: path.resolve(__dirname, 'assets'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'assets'), // eslint-disable-line
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
@@ -12,13 +12,13 @@ module.exports = {
         test: /\.js[x]?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015-without-strict', 'react']
-        }
+          presets: ['es2015-without-strict', 'react'],
+        },
       },
       {
         test: /\.js[x]?$/,
-        loader: 'ify-loader'
+        loader: 'ify-loader',
       },
-    ]
-  }
+    ],
+  },
 };

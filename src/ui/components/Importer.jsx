@@ -1,11 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import pickBy from 'lodash/pickBy';
 import mapValues from 'lodash/mapValues';
 import keyBy from 'lodash/keyBy';
 import merge from 'lodash/merge';
 import parseCSV from 'csv-parse/lib/sync';
-import transaction from '../../shared/transaction.js'
+import transaction from '../../shared/transaction.js';
 import TransactionTable from './TransactionTable.jsx';
 
 const REQUIRED_KEYS = ['Date', 'Description', 'Value', 'Balance'];
@@ -17,7 +16,7 @@ const INITIAL_INPUT = 'InitialInput';
 class Importer extends React.Component {
   constructor(){
     super();
-    this.state = { }
+    this.state = { };
   }
 
   recordInput(e) {
@@ -29,7 +28,7 @@ class Importer extends React.Component {
     this.setState({
       stage: DATA_PARSED,
       parsedData,
-      headerMappings: keyBy(REQUIRED_KEYS.filter(k => parsedData[0][k]))
+      headerMappings: keyBy(REQUIRED_KEYS.filter(k => parsedData[0][k])),
     });
   }
 
@@ -40,8 +39,8 @@ class Importer extends React.Component {
   mapHeaders() {
     this.setState(Object.assign({}, this.state, {
       stage: HEADERS_MAPPED,
-      parsedData: this.state.parsedData.map(datum => mapValues(this.state.headerMappings, k => datum[k]))
-    }))
+      parsedData: this.state.parsedData.map(datum => mapValues(this.state.headerMappings, k => datum[k])),
+    }));
   }
 
   saveImports() {
@@ -49,7 +48,6 @@ class Importer extends React.Component {
   }
 
   render() {
-    console.log('this.state', this.state)
     if(this.state.stage === HEADERS_MAPPED) {
       return (
         <div>
@@ -61,27 +59,27 @@ class Importer extends React.Component {
       const parsedHeaders = Object.keys(this.state.parsedData[0]);
       return (
         <div>
-        <button onClick={this.mapHeaders.bind(this)}>Map Headers</button>
-        {REQUIRED_KEYS.map((requiredKey, i) => (
-          <div key={i}>
-            {requiredKey}
-            <select
-              name={requiredKey}
-              value={this.state.headerMappings[requiredKey]}
-              onChange={this.changeHeaderMapping.bind(this)}
-            >
-              <option disabled selected>Please Select</option>
-              {parsedHeaders.map(parsedHeader => (
-                <option
-                  key={parsedHeader}
-                  value={parsedHeader}
+          <button onClick={this.mapHeaders.bind(this)}>Map Headers</button>
+          {REQUIRED_KEYS.map((requiredKey, i) => (
+            <div key={i}>
+              {requiredKey}
+              <select
+                name={requiredKey}
+                value={this.state.headerMappings[requiredKey]}
+                onChange={this.changeHeaderMapping.bind(this)}
+              >
+                <option disabled selected>Please Select</option>
+                {parsedHeaders.map(parsedHeader => (
+                  <option
+                    key={parsedHeader}
+                    value={parsedHeader}
                   >
-                  {parsedHeader}
-                </option>
-              ))}
-            </select>
-          </div>
-        ))}
+                    {parsedHeader}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
         </div>
       );
     }
@@ -91,7 +89,7 @@ class Importer extends React.Component {
         <textarea name={INITIAL_INPUT} onChange={this.recordInput.bind(this)} />
       </div>
     );
-  };
+  }
 }
 
 export default Importer;

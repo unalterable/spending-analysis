@@ -16,8 +16,8 @@ const transactionObj = (transaction, modifiers) => {
     description: transaction.Description,
     toString: ({ id, transaction }),
     /* addModifier: newTransactionObj(transaction, Object.assign({}, modifiers, newModifiers)),*/
-  }
+  };
   return methods;
-}
+};
 
 module.exports = transactionObj;

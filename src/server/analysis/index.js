@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment').utc;
 
-const newTransactionObj = require('../../shared/transaction.js')
+const newTransactionObj = require('../../shared/transaction.js');
 const rentChecker = require('./rent-checker.js');
 
 const createAnalysis = ({ statement, rentStrings }) => {
@@ -12,7 +12,7 @@ const createAnalysis = ({ statement, rentStrings }) => {
       transactions.spending || [],
       transactions.rent || [],
       transactions.income || []
-    )
+    );
   };
 
   const calcStartingBalance = totalsByDate => {
@@ -24,14 +24,14 @@ const createAnalysis = ({ statement, rentStrings }) => {
   const maxDate = transactions => _.maxBy(transactions, t => t.date).date;
 
   const createOrderedDateRange = (firstDay, lastDay) => {
-    const start = moment(firstDay)
-    const finish = moment(lastDay)
+    const start = moment(firstDay);
+    const finish = moment(lastDay);
     const range = [];
     for(let day = start; day <= finish; day = day.add(1, 'days')){
       range.push(day.toDate());
     }
     return range;
-  }
+  };
 
   const category = (transaction) => {
     if (isRent(transaction))
@@ -44,12 +44,12 @@ const createAnalysis = ({ statement, rentStrings }) => {
   const keyByDateAndCategory = (transactions) => {
     return transactions.reduce((memo, t) =>
       _.update(memo, [t.date, category(t)], val => (val || []).concat(t)),
-      {}
-    )
+    {}
+    );
   };
 
   const total = (transactions) => {
-    return (transactions || []).reduce((sum, t) => sum + t.amount, 0)
+    return (transactions || []).reduce((sum, t) => sum + t.amount, 0);
   };
 
   const getMonth = (date) => moment(date).format('MM-YYYY');
@@ -73,11 +73,11 @@ const createAnalysis = ({ statement, rentStrings }) => {
     totalsByDate.forEach(dayTotals => {
       const month = getMonth(dayTotals.date);
       if(!monthlyTotals[month])
-        monthlyTotals[month] = {spending: 0, rent: 0, income: 0 }
+        monthlyTotals[month] = {spending: 0, rent: 0, income: 0 };
       monthlyTotals[month].spending += dayTotals.spending;
       monthlyTotals[month].rent += dayTotals.rent;
       monthlyTotals[month].income += dayTotals.income;
-    })
+    });
     return monthlyTotals;
   };
 
@@ -89,10 +89,10 @@ const createAnalysis = ({ statement, rentStrings }) => {
       const dayOfMonth = moment(dayTotals.date).date();
       const totalMonthlyRentAndIncome = monthlyTotals[getMonth(dayTotals.date)].rent + monthlyTotals[getMonth(dayTotals.date)].income;
       spendingSoFarThisMonth = (dayOfMonth !== 1 ? spendingSoFarThisMonth : 0) + dayTotals.spending;
-      balance += (dayTotals.spending + dayTotals.income + dayTotals.rent)
-      amortisedBalance += (dayTotals.spending + totalMonthlyRentAndIncome/(moment(dayTotals.date).daysInMonth()))
-      return Object.assign({}, dayTotals, { spendingSoFarThisMonth, balance, amortisedBalance })
-    })
+      balance += (dayTotals.spending + dayTotals.income + dayTotals.rent);
+      amortisedBalance += (dayTotals.spending + totalMonthlyRentAndIncome/(moment(dayTotals.date).daysInMonth()));
+      return Object.assign({}, dayTotals, { spendingSoFarThisMonth, balance, amortisedBalance });
+    });
   };
 
   const checkBalances = (balances) => {
@@ -101,13 +101,13 @@ const createAnalysis = ({ statement, rentStrings }) => {
       if(allTransactions.length > 0){
         const possibleBalances = allTransactions.map(t => t.balance);
         if(!possibleBalances.includes(day.balance)){
-          throw new Error(`Balance incorrect for transaction ${i}, it is ${day.balance} and is should be one of ${possibleBalances}`)
+          throw new Error(`Balance incorrect for transaction ${i}, it is ${day.balance} and is should be one of ${possibleBalances}`);
         }
       }
     });
   };
 
-  const transactions = statement.map(newTransactionObj)
+  const transactions = statement.map(newTransactionObj);
   const totalsByDate = calcTotalsByDate(transactions);
   const monthlyTotals = calcMonthlyTotals(totalsByDate);
   const balances = addBalances(totalsByDate, monthlyTotals);

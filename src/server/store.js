@@ -1,10 +1,9 @@
 'use strict';
-const MongoClient = require('mongodb').MongoClient
-const assert = require('assert');
+const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/';
 const dbName = 'spending_analysis';
 const transactionsCollection = 'transactions';
-const rentStringsCollection = 'rent_strings'
+const rentStringsCollection = 'rent_strings';
 
 const storeActions = {
   insertTransactions: transactions => MongoClient.connect(url)

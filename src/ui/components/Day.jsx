@@ -1,6 +1,6 @@
 import React from 'react';
-import TransactionSection from './TransactionSection.jsx'
-import { formatDate, formatCurrency } from '../utils/format.js'
+import TransactionSection from './TransactionSection.jsx';
+import { formatDate, formatCurrency } from '../utils/format.js';
 
 class Day extends React.Component {
   constructor(props){
@@ -12,7 +12,7 @@ class Day extends React.Component {
   toggleExpand(){
     this.setState({
       expanded: !this.state.expanded,
-    })
+    });
   }
   render(){
     const row = this.props;
@@ -28,15 +28,15 @@ class Day extends React.Component {
           <td align='right'>{formatCurrency(row.spendingSoFarThisMonth)}</td>
         </tr>
         { this.state.expanded && (
-            <tr>
-              <td colSpan={7} align='center'>
-                <TransactionSection {...row.transactions} />
-              </td>
-            </tr>
+          <tr>
+            <td colSpan={7} align='center'>
+              <TransactionSection {...row.transactions} />
+            </td>
+          </tr>
         ) }
       </tbody>
     );
   }
-  }
+}
 
 module.exports = Day;

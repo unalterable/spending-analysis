@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build-assets && node src/server/index.js",
+    "dev": "concurrently -k -p '{time} {name}:' -t 'HH:ss' -n 'Assets,Server' -c 'green,magenta' 'npm run build-assets:watch' 'npm run server:watch'",
     "stub-data": "node scripts/stub-data.js",
     "test": "mocha test/",
-    "server:watch": "nodemon --ignore src/ui/ --ignore build/ --ignore scripts/ --ignore test/ src/server/index.js",
+    "server:watch": "nodemon -w src/ -i src/ui/ src/server/index.js",
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore .",
     "lint-fix": "eslint --ext .js,.jsx --ignore-path .gitignore . --fix",
     "build-assets": "webpack --config ./webpack.config.js",
@@ -39,6 +40,7 @@
     "webpack": "^3.8.1"
   },
   "devDependencies": {
+    "concurrently": "^3.5.1",
     "eslint": "^4.19.1",
     "eslint-plugin-mocha": "^5.0.0",
     "eslint-plugin-react": "^7.7.0",

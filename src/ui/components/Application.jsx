@@ -1,9 +1,12 @@
 import React from 'react';
 
-const application = () => (
-  <div>
-    Hello World!
-  </div>
-);
+const Application = ({ text }) => {
+  return (
+    <div>
+      <p>Hello World!</p>
+      <p onClick={() => console.log('JS working')}>{text}</p>
+    </div>
+  )
+};
 
-export default application;
+export default Application;

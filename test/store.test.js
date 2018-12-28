@@ -30,7 +30,7 @@ describe('store', () => {
   beforeEach(() => storeHelper.removeAll(dbName, coll));
 
   it('saves a document', () =>
-    testCollection.insert(testDoc)
+    testCollection.insertMany([testDoc])
       .then(() => storeHelper.getAll(dbName, coll))
       .then(dbDocs => {
         expect(dbDocs).to.have.length(1);
@@ -39,7 +39,7 @@ describe('store', () => {
   );
 
   it('saves documents', () =>
-    testCollection.insert(testDocs)
+    testCollection.insertMany(testDocs)
       .then(() => storeHelper.getAll(dbName, coll))
       .then(dbDocs => {
         expect(dbDocs).to.have.length(2);
@@ -49,7 +49,7 @@ describe('store', () => {
   );
 
   it('updates documents', () =>
-    testCollection.insert(testDocs)
+    testCollection.insertMany(testDocs)
       .then(() => testCollection.update({ num: 0 }, testDoc))
       .then(() => storeHelper.getAll(dbName, coll))
       .then(dbDocs => {
@@ -66,7 +66,7 @@ describe('store', () => {
   );
 
   it('deletes documents', () =>
-    testCollection.insert(testDocs)
+    testCollection.insertMany(testDocs)
       .then(() => storeHelper.getAll(dbName, coll))
       .then(dbDocs => {
         expect(dbDocs).to.have.length(2);

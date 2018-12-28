@@ -4,14 +4,14 @@ const mongoUrl = 'mongodb://localhost:27017/';
 module.exports = {
   storeHelper: {
     getAll: async (dbName, collection) => {
-      const db = await MongoClient.connect(mongoUrl);
+      const db = await MongoClient.connect(mongoUrl, { useNewUrlParser: true });
       const result = await db.db(dbName).collection(collection).find({}).toArray();
       db.close();
       return result;
     },
     removeAll: async (dbName, collection) => {
-      const db = await MongoClient.connect(mongoUrl);
-      await db.db(dbName).collection(collection).remove({});
+      const db = await MongoClient.connect(mongoUrl, { useNewUrlParser: true });
+      await db.db(dbName).collection(collection).deleteMany({});
       db.close();
     },
   },

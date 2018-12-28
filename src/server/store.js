@@ -3,7 +3,7 @@ const _  = require('lodash');
 const url = 'mongodb://localhost:27017/';
 
 const initStoreActions = dbName =>
-  MongoClient.connect(url)
+  MongoClient.connect(url, { useNewUrlParser: true })
     .then(connection => {
       const db = connection.db(dbName);
 
@@ -14,7 +14,7 @@ const initStoreActions = dbName =>
         collections: {
           collection1: {
             getAll: () => collection1.find({}).toArray(),
-            insert: objOrArr => collection1.insert(_.cloneDeep(objOrArr)),
+            insertMany: objOrArr => collection1.insertMany(_.cloneDeep(objOrArr)),
             update: (query, changes) => collection1.findOneAndUpdate(query, { $set: _.cloneDeep(changes) }),
             delete: query => collection1.deleteOne(query),
           },

@@ -1,7 +1,7 @@
-import initStore from '../store';
+import store from '../store';
 
 const initItemController = async () => {
-  const { collections: { items: itemStore } } = await initStore();
+  const { collections: { items: itemStore } } = await store;
 
   const getItems = async (req, res) => {
     try {

@@ -7,7 +7,7 @@ const url = 'mongodb://localhost:27017/';
 
 const sanitiseItem = item => _.omit(item, '_id');
 
-const initStoreActions = async () => {
+const initStore = async () => {
   const connection = await MongoClient.connect(url, { useNewUrlParser: true });
 
   const db = connection.db(dbName);
@@ -34,4 +34,4 @@ const initStoreActions = async () => {
   };
 };
 
-module.exports = initStoreActions;
+module.exports = initStore();

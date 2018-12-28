@@ -2,7 +2,7 @@ const _  = require('lodash');
 const { expect } = require('chai');
 const { storeHelper } = require('./helpers.js');
 
-const initStore = require('../src/server/store.js');
+const store = require('../src/server/store.js');
 const dbName = 'base-app';
 const coll = 'items';
 
@@ -16,9 +16,9 @@ describe('store', () => {
   let itemsCollection;
 
   before(async () => {
-    const store = await initStore(dbName);
-    dbConnection = store.connection;
-    itemsCollection = store.collections[coll];
+    const { connection, collections } = await store;
+    dbConnection = connection;
+    itemsCollection = collections[coll];
   });
 
   after(() => dbConnection.close());

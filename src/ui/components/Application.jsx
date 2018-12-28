@@ -6,7 +6,7 @@ const Application = ({ text }) => {
       <p>Hello World!</p>
       <p onClick={() => console.log('JS working')}>{text}</p>
     </div>
-  )
+  );
 };
 
 export default Application;

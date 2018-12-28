@@ -1,4 +1,4 @@
-const Html = ({ body, title, initialState }) => `
+const html = ({ body, title, initialState }) => `
 <!DOCTYPE html>
   <html>
     <head>
@@ -12,4 +12,4 @@ const Html = ({ body, title, initialState }) => `
   </html>
 `;
 
-export default Html
+export default html;

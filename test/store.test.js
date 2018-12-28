@@ -1,14 +1,14 @@
 const _  = require('lodash');
-const expect = require('expect.js')
+const expect = require('expect.js');
 const { storeHelper } = require('./helpers.js');
 
 const initStore = require('../src/server/store.js');
 const dbName = 'base_app_test';
-const coll = 'collection1'
+const coll = 'collection1';
 
 const testDoc = {
-  prop1: "val1",
-  prop2: "val2",
+  prop1: 'val1',
+  prop2: 'val2',
 };
 
 const testDocs = [
@@ -83,4 +83,4 @@ describe('store', () => {
         expect(dbDocs).to.have.length(0);
       })
   );
-})
+});

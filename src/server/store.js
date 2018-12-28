@@ -1,5 +1,4 @@
-const MongoClient = require('mongodb').MongoClient
-const ObjectId = require('mongodb').ObjectId;
+const { MongoClient } = require('mongodb');
 const _  = require('lodash');
 const url = 'mongodb://localhost:27017/';
 
@@ -18,9 +17,9 @@ const initStoreActions = dbName =>
             insert: objOrArr => collection1.insert(_.cloneDeep(objOrArr)),
             update: (query, changes) => collection1.findOneAndUpdate(query, { $set: _.cloneDeep(changes) }),
             delete: query => collection1.deleteOne(query),
-          }
+          },
         },
-      }
+      };
     });
 
 module.exports = initStoreActions;

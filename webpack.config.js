@@ -4,7 +4,7 @@ module.exports = {
   entry: './src/ui/index.js',
   output: {
     path: path.resolve(__dirname, 'assets'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
@@ -12,9 +12,9 @@ module.exports = {
         test: /\.js[x]?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react']
-        }
-      }
-    ]
-  }
+          presets: ['es2015', 'react'],
+        },
+      },
+    ],
+  },
 };

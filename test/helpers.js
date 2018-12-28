@@ -3,13 +3,16 @@ const mongoUrl = 'mongodb://localhost:27017/';
 
 module.exports = {
   storeHelper: {
-    getAll: (dbName, collection) => MongoClient.connect(mongoUrl)
-      .then(db => db.db(dbName).collection(collection).find({}).toArray()
-        .then(result => {
-          db.close();
-          return result})),
-    removeAll: (dbName, collection) => MongoClient.connect(mongoUrl)
-      .then(db => db.db(dbName).collection(collection).remove({})
-        .then(result => db.close())),
+    getAll: async (dbName, collection) => {
+      const db = await MongoClient.connect(mongoUrl);
+      const result = await db.db(dbName).collection(collection).find({}).toArray();
+      db.close();
+      return result;
+    },
+    removeAll: async (dbName, collection) => {
+      const db = await MongoClient.connect(mongoUrl);
+      await db.db(dbName).collection(collection).remove({});
+      db.close();
+    },
   },
-}
+};

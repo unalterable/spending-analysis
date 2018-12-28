@@ -1,86 +1,74 @@
 const _  = require('lodash');
-const expect = require('expect.js');
+const { expect } = require('chai');
 const { storeHelper } = require('./helpers.js');
 
 const initStore = require('../src/server/store.js');
-const dbName = 'base_app_test';
-const coll = 'collection1';
+const dbName = 'base-app';
+const coll = 'items';
 
 const testDoc = {
   prop1: 'val1',
   prop2: 'val2',
 };
 
-const testDocs = [
-  { num: 0, documentProp1: 'test value1' },
-  { num: 1, documentProp2: 'test value2' },
-];
-
 describe('store', () => {
   let dbConnection;
-  let testCollection;
+  let itemsCollection;
 
-  before(() => initStore(dbName).then(store => {
+  before(async () => {
+    const store = await initStore(dbName);
     dbConnection = store.connection;
-    testCollection = store.collections[coll];
-  }));
+    itemsCollection = store.collections[coll];
+  });
 
   after(() => dbConnection.close());
 
   beforeEach(() => storeHelper.removeAll(dbName, coll));
 
-  it('saves a document', () =>
-    testCollection.insertMany([testDoc])
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(1);
-        expect(_.omit(dbDocs[0], '_id')).to.eql(testDoc);
-      })
-  );
+  it('saves a document, adding a uuid', async () => {
+    await itemsCollection.insert(testDoc);
 
-  it('saves documents', () =>
-    testCollection.insertMany(testDocs)
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(2);
-        expect(_.omit(dbDocs.find(doc => doc.num === 0), '_id')).to.eql(testDocs.find(doc => doc.num === 0));
-        expect(_.omit(dbDocs.find(doc => doc.num === 1), '_id')).to.eql(testDocs.find(doc => doc.num === 1));
-      })
-  );
+    const dbDocs = await storeHelper.getAll(dbName, coll);
+    expect(dbDocs).to.have.length(1);
 
-  it('updates documents', () =>
-    testCollection.insertMany(testDocs)
-      .then(() => testCollection.update({ num: 0 }, testDoc))
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(2);
-        expect(_.omit(dbDocs.find(doc => doc.num === 0), '_id')).to.eql(Object.assign({}, testDocs.find(doc => doc.num === 0), testDoc));
-        expect(_.omit(dbDocs.find(doc => doc.num === 1), '_id')).to.eql(testDocs.find(doc => doc.num === 1));
-      })
-      .then(() => testCollection.update({ num: 1 }, { documentProp2: 'blob'}))
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(2);
-        expect(_.omit(dbDocs.find(doc => doc.num === 1), '_id')).to.eql({ num: 1, documentProp2: 'blob' });
-      })
-  );
+    const dbDoc = dbDocs[0];
+    expect(_.omit(dbDoc, ['_id', 'id'])).to.eql(testDoc);
+    expect(dbDoc.id).to.be.a('string').with.length(36); // is a uuidv4
+  });
 
-  it('deletes documents', () =>
-    testCollection.insertMany(testDocs)
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(2);
-      })
-      .then(() => testCollection.delete({ num: 0 }))
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(1);
-        expect(dbDocs[0].num).to.eql(1);
-      })
-      .then(() => testCollection.delete({ num: 1 }))
-      .then(() => storeHelper.getAll(dbName, coll))
-      .then(dbDocs => {
-        expect(dbDocs).to.have.length(0);
-      })
-  );
+  it('retrieves a document', async () => {
+    await itemsCollection.insert(testDoc);
+
+    const dbDocs = await itemsCollection.getAll();
+
+    expect(dbDocs).to.have.length(1);
+    expect(dbDocs[0]).to.include(testDoc);
+  });
+
+  it('updates a document by ID', async () => {
+    const entry = await itemsCollection.insert({ prop: 'thing' });
+
+    await itemsCollection.updateById(entry.id, testDoc);
+
+    const dbDocs = await storeHelper.getAll(dbName, coll);
+    const updatedItem = dbDocs.find(doc => doc.prop === 'thing');
+
+    expect(updatedItem).to.include({ prop: 'thing' });
+    expect(updatedItem).to.include(testDoc);
+  });
+
+  it('deletes a document by ID', async () => {
+    const entry = await itemsCollection.insert({ prop: 'thing' });
+
+    const dbDocs = await storeHelper.getAll(dbName, coll);
+    const dbItem = dbDocs.find(doc => doc.id === entry.id);
+    expect(dbItem).to.include({ id: entry.id, prop: 'thing' });
+
+    await itemsCollection.deleteById(entry.id);
+
+    const updatedDbDocs = await storeHelper.getAll(dbName, coll);
+    const updatedDbItem = updatedDbDocs.find(doc => doc.id === entry.id);
+    expect(updatedDbItem).to.equal(undefined);
+  });
+
 });

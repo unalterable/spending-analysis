@@ -4,17 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build-assets && node src/server/index.js",
+    "start": "npm run build-assets && npm run server",
     "dev": "concurrently -k -p '{time} {name}:' -t 'HH:ss' -n 'Assets,Server' -c 'green,magenta' 'npm run build-assets:watch' 'npm run server:watch'",
     "start-mongo": "docker run --rm -d mongo:latest",
     "stub-data": "node scripts/stub-data.js",
     "test": "NODE_ENV=test mocha test/ --exit",
-    "server": "sudo node src/server/index.js",
+    "server": "node src/server/index.js",
     "server:watch": "nodemon -w src/ -e js,jsx src/server/index.js",
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore .",
     "lint-fix": "eslint --ext .js,.jsx --ignore-path .gitignore . --fix",
-    "build-assets": "webpack --config ./webpack.config.js",
-    "build-assets:watch": "webpack --watch"
+    "build-assets": "webpack",
+    "build-assets:watch": "npm run build-assets --watch"
   },
   "author": "",
   "license": "ISC",
@@ -23,8 +23,10 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "babel-loader": "^8.0.4",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
+    "config": "^3.0.1",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "mongodb": "^3.1.10",
@@ -40,6 +42,7 @@
     "docker-starter": "^1.0.1",
     "eslint": "^5.11.1",
     "eslint-plugin-react": "^7.12.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "webpack-cli": "^3.1.2"
   }
 }

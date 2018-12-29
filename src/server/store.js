@@ -1,18 +1,14 @@
 const { MongoClient } = require('mongodb');
+const config = require('config');
 const uuidv4 = require('uuid/v4');
 const _  = require('lodash');
-
-const getUrl = async () => process.env.NODE_ENV !== 'test'
-  ? 'mongodb://localhost:27017'
-  : require('../../test/helpers/db')().then(({ getDbUrl }) => getDbUrl());
 
 const dbName = 'base-app';
 
 const sanitiseItem = item => _.omit(item, '_id');
 
 const initStore = async () => {
-  const url = await getUrl();
-  console.log('url', url)
+  const url = await config.get('db.mongo.url');
   const connection = await MongoClient.connect(url, { useNewUrlParser: true });
 
   const db = connection.db(dbName);

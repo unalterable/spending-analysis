@@ -10,7 +10,7 @@ const mongo = dockerStarter({
 });
 
 
-const getDbUrl = (url => async () => {
+const getUrl = (url => async () => {
   if (!url) {
     const { host, port } = mongo.ensureRunning();
     url = `mongodb://${host}:${port}`;
@@ -18,24 +18,24 @@ const getDbUrl = (url => async () => {
   return url;
 })(null);
 
-module.exports = async (dbName, collection) => {
-  return {
-    getDbUrl,
+module.exports = {
+  getUrl,
+  collectionTools: async ({ db, collection }) => ({
     getAll: async () => {
-      const db = await MongoClient.connect(await getDbUrl(), { useNewUrlParser: true });
-      const result = await db.db(dbName).collection(collection).find({}).toArray();
-      db.close();
+      const connection = await MongoClient.connect(await getUrl(), { useNewUrlParser: true });
+      const result = await connection.db(db).collection(collection).find({}).toArray();
+      connection.close();
       return result;
     },
     insertMany: async (items) => {
-      const db = await MongoClient.connect(await getDbUrl(), { useNewUrlParser: true });
-      await db.db(dbName).collection(collection).insertMany(items);
-      db.close();
+      const connection = await MongoClient.connect(await getUrl(), { useNewUrlParser: true });
+      await connection.db(db).collection(collection).insertMany(items);
+      connection.close();
     },
     removeAll: async () => {
-      const db = await MongoClient.connect(await getDbUrl(), { useNewUrlParser: true });
-      await db.db(dbName).collection(collection).deleteMany({});
-      db.close();
+      const connection = await MongoClient.connect(await getUrl(), { useNewUrlParser: true });
+      await connection.db(db).collection(collection).deleteMany({});
+      connection.close();
     },
-  };
+  }),
 };

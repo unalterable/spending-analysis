@@ -1,7 +1,7 @@
-const initDb = require('./db');
-const initServer = require('./server');
+const db = require('./db');
+const server = require('./server');
 
 module.exports = {
-  initDb,
-  initServer,
+  db,
+  server,
 };

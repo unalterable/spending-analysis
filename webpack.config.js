@@ -1,18 +1,22 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/ui/index.js',
+  mode: 'none',
+  entry: './src/ui/index.jsx',
   output: {
     path: path.resolve(__dirname, 'assets'),
     filename: 'bundle.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js[x]?$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
+        exclude: '/node_modules/',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env','@babel/preset-react'],
+          },
         },
       },
     ],

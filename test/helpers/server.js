@@ -1,13 +1,16 @@
 const initRoutes = require('../../src/server/routes');
 
-const initServer = async (serverApp) => {
+const initServer = () => {
   let runningServer;
 
   return {
     start: async () => {
-      await new Promise((res) => {
-        runningServer = serverApp.listen(res);
-      });
+      if (!runningServer) {
+        const app = await initRoutes();
+        await new Promise((res) => {
+          runningServer = app.listen(res);
+        });
+      }
     },
     stop: async () => {
       await runningServer.close();
@@ -17,7 +20,4 @@ const initServer = async (serverApp) => {
   };
 };
 
-module.exports = async () => {
-  const app = await initRoutes();
-  return initServer(app);
-};
+module.exports = initServer();

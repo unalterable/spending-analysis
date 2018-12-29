@@ -12,6 +12,7 @@ const sanitiseItem = item => _.omit(item, '_id');
 
 const initStore = async () => {
   const url = await getUrl();
+  console.log('url', url)
   const connection = await MongoClient.connect(url, { useNewUrlParser: true });
 
   const db = connection.db(dbName);

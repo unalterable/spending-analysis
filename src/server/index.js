@@ -1,4 +1,4 @@
-require('../babel');
+require('../../babel');
 const setupRoutes = require('./routes.js');
 
 const port = 3000;

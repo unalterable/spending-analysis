@@ -6,8 +6,6 @@ const { initDb, initServer } = require('./helpers');
 const dbName = 'base-app';
 const coll = 'items';
 
-const testDoc = { prop1: 'val1', prop2: 'val2' };
-
 describe('api', () => {
   let server;
   let db;

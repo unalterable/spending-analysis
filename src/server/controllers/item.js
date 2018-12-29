@@ -1,14 +1,15 @@
-import store from '../store';
+import initStore from '../store';
 
 const initItemController = async () => {
-  const { collections: { items: itemStore } } = await store;
+  const { collections: { items: itemStore } } = await initStore();
 
   const getItems = async (req, res) => {
     try {
-      const allitems = await itemStore.getall();
+      const allitems = await itemStore.getAll();
       res.send(allitems);
     } catch (err) {
-      res.status(400).send(err);
+      console.error(err);
+      res.status(400).send(err.message);
     }
   };
 
@@ -18,6 +19,7 @@ const initItemController = async () => {
       const updatedItemList = await itemStore.insert(newItem);
       res.send(updatedItemList);
     } catch (err) {
+      console.error(err);
       res.status(400).send(err.message);
     }
   };
@@ -28,7 +30,8 @@ const initItemController = async () => {
       const item = await itemStore.getById(id);
       res.send(item);
     } catch (err) {
-      res.status(400).send(err);
+      console.error(err);
+      res.status(400).send(err.message);
     }
   };
 
@@ -39,7 +42,8 @@ const initItemController = async () => {
       const item = await itemStore.updateById(id, changes);
       res.send(item);
     } catch (err) {
-      res.status(400).send(err);
+      console.error(err);
+      res.status(400).send(err.message);
     }
   };
 
@@ -47,10 +51,11 @@ const initItemController = async () => {
     try {
       const { id } = req.params;
       const changes = req.body;
-      const item = await itemStore.updateById(id, changes);
+      const item = await itemStore.deleteById(id, changes);
       res.send(item);
     } catch (err) {
-      res.status(400).send(err);
+      console.error(err);
+      res.status(400).send(err.message);
     }
   };
 

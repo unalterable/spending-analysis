@@ -20,7 +20,8 @@ const initStore = async () => {
       items: {
         getAll: () => itemsCollection.find({}).toArray(),
         getById: id => itemsCollection
-          .findOne({ id }),
+          .findOne({ id })
+          .then(sanitiseItem),
         insert: item => itemsCollection
           .insertOne({ ...item, id: uuidv4() })
           .then(result => sanitiseItem(result.ops[0])),
@@ -34,4 +35,4 @@ const initStore = async () => {
   };
 };
 
-module.exports = initStore();
+module.exports = initStore;

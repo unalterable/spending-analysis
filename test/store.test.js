@@ -2,7 +2,7 @@ const _  = require('lodash');
 const { expect } = require('chai');
 const { db } = require('./helpers');
 
-const initStore = require('../src/server/store.js');
+const initStore = require('../src/server/store');
 
 const testDoc = {
   prop1: 'val1',
@@ -11,17 +11,16 @@ const testDoc = {
 
 describe('store', () => {
   let collectionHelper;
-  let dbConnection;
+  let getConnection;
   let itemsCollection;
 
   before(async () => {
     collectionHelper = await db.collectionTools({ db: 'base-app', collection: 'items' });
-    const { connection, collections } = await initStore();
-    dbConnection = connection;
-    itemsCollection = collections['items'];
+    ({ getConnection, collections: { items: itemsCollection } } = await initStore());
+    getConnection();
   });
 
-  after(() => dbConnection.close());
+  after(() => getConnection().then(conn => conn.close()));
 
   beforeEach(async () => {
     await collectionHelper.removeAll();

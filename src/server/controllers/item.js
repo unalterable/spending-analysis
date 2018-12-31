@@ -1,8 +1,4 @@
-import initStore from '../store';
-
-const initItemController = async () => {
-  const { collections: { items: itemStore } } = await initStore();
-
+const initItemController = ({ itemStore }) => {
   const getItems = async (req, res) => {
     try {
       const allitems = await itemStore.getAll();
@@ -17,7 +13,7 @@ const initItemController = async () => {
     try {
       const newItem = req.body;
       const updatedItemList = await itemStore.insert(newItem);
-      res.send(updatedItemList);
+      res.status(201).send(updatedItemList);
     } catch (err) {
       console.error(err);
       res.status(400).send(err.message);
@@ -51,8 +47,8 @@ const initItemController = async () => {
     try {
       const { id } = req.params;
       const changes = req.body;
-      const item = await itemStore.deleteById(id, changes);
-      res.send(item);
+      await itemStore.deleteById(id, changes);
+      res.sendStatus(200);
     } catch (err) {
       console.error(err);
       res.status(400).send(err.message);

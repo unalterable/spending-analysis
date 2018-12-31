@@ -1,10 +1,13 @@
 import express from 'express' ;
 import bodyParser from 'body-parser';
+import initStore from './store';
 import indexController from './controllers/index';
 import initItemController from './controllers/item';
 
-const initRoutes = async () => {
-  const itemController = await initItemController();
+const initRoutes = () => {
+  const store = initStore();
+  store.getConnection();
+  const itemController = initItemController({ itemStore: store.collections.items });
   const app = express();
   app.use(bodyParser.json());
 

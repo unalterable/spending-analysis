@@ -6,9 +6,8 @@ const initServer = () => {
   return {
     start: async () => {
       if (!runningServer) {
-        const app = await initRoutes();
         await new Promise((res) => {
-          runningServer = app.listen(res);
+          runningServer = initRoutes().listen(res);
         });
       }
     },

@@ -28,13 +28,11 @@
     "@material-ui/core": "^3.8.2",
     "babel-loader": "^8.0.4",
     "body-parser": "^1.18.3",
-    "concurrently": "^4.1.0",
     "config": "^3.0.1",
     "express": "^4.16.4",
     "jss": "^9.8.7",
     "lodash": "^4.17.11",
     "mongodb": "^3.1.10",
-    "nodemon": "^1.18.9",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-jss": "^8.6.1",
@@ -45,10 +43,12 @@
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
+    "concurrently": "^4.1.0",
     "docker-starter": "^1.0.1",
     "eslint": "^5.11.1",
     "eslint-plugin-react": "^7.12.0",
     "mocha": "^5.2.0",
+    "nodemon": "^1.18.9",
     "webpack-cli": "^3.1.2"
   }
 }

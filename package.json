@@ -31,11 +31,13 @@
     "concurrently": "^4.1.0",
     "config": "^3.0.1",
     "express": "^4.16.4",
+    "jss": "^9.8.7",
     "lodash": "^4.17.11",
     "mongodb": "^3.1.10",
     "nodemon": "^1.18.9",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-jss": "^8.6.1",
     "uuid": "^3.3.2",
     "webpack": "^4.28.2"
   },

@@ -1,13 +1,21 @@
+import React from 'react';
 import { renderToString } from 'react-dom/server';
-import App from '../../ui/Application.jsx';
+import { SheetsRegistry } from 'jss';
+import JssProvider from 'react-jss/lib/JssProvider';
+import Application from '../../ui/Application.jsx';
 import html from '../../ui/layout/basic.js';
 
 module.exports = {
   async showIndex(req, res) {
     const title = 'Hello World Title';
     const initialState = { text: 'alice' };
-    const body = renderToString(App(initialState));
-    res.send(html({ title, body, initialState }));
+    const sheetsRegistry = new SheetsRegistry();
+    const body = renderToString(
+      <JssProvider registry={sheetsRegistry} >
+        <Application {...initialState} />
+      </ JssProvider>
+    );
+    res.send(html({ title, body, initialState, css: sheetsRegistry.toString() }));
   },
   async showData(req, res) {
     res.json({ hello: 'world' });

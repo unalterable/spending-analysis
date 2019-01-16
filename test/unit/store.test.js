@@ -1,8 +1,8 @@
 const _  = require('lodash');
 const { expect } = require('chai');
-const { db } = require('./helpers');
+const { mongo } = require('../helpers');
 
-const initStore = require('../src/server/store');
+const initStore = require('../../src/server/store');
 
 const testDoc = {
   prop1: 'val1',
@@ -15,7 +15,7 @@ describe('store', () => {
   let itemsCollection;
 
   before(async () => {
-    collectionHelper = await db.collectionTools({ db: 'base-app', collection: 'items' });
+    collectionHelper = await mongo.collectionTools({ db: 'base-app', collection: 'items' });
     ({ getConnection, collections: { items: itemsCollection } } = await initStore());
     getConnection();
   });

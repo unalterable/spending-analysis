@@ -39,4 +39,4 @@ class Day extends React.Component {
   }
 }
 
-module.exports = Day;
+export default Day;

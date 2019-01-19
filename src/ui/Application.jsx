@@ -7,7 +7,7 @@ import red from '@material-ui/core/colors/red';
 import Button from '@material-ui/core/Button';
 import Theme from './Theme.jsx';
 import TopNav from './components/TopNav.jsx';
-import FinancialPlot from './components/FinancialPlot.jsx';
+/* import FinancialPlot from './components/FinancialPlot.jsx'; */
 import Statement from './components/Statement.jsx';
 import Importer from './components/Importer.jsx';
 
@@ -20,7 +20,8 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/data').then(({ data }) => this.setState({ data }));
+    console.log('21127', 21127)
+    axios.get('http://localhost:3000/api/data').then(({ data }) => this.setState({ data }));
   }
 
   render() {
@@ -38,8 +39,7 @@ class Application extends React.Component {
             path="/"
             component={() => (
               <div>
-                <FinancialPlot data={data} />
-                <Statement data={data} />
+                <Statement data={this.state.data} />
               </div>
             )}
           />

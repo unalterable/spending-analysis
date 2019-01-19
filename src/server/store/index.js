@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const config = require('config');
-const initItemsCollection = require('./items');
+const initRentStringCollection = require('./rent-string');
+const initTransactionCollection = require('./transaction');
 
 const dbName = config.get('db.mongo.dbName');
 

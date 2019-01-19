@@ -1,7 +1,3 @@
 node_modules/
 assets/
 data/
-/keyrings/live/pubring.gpg~
-/keyrings/live/pubring.kbx~
-/keyrings/live/secring.gpg
-/config/secrets.js

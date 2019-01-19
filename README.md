@@ -4,20 +4,27 @@ An application for analysing spending patterns from a bank statement
 
 ## Installation
 
-To run the application:
+To install dependencies:
 ```
 npm i
-npm run build-assets
+```
+
+To run the application:
+```
 npm start
 ```
 
 ## Development
 
-The easiest way to develop this application is by running 2 processes:
-
-* First install dependencies:
+The easiest way to develop this application is by running 2 processes simultaneously:
 ```
-npm i
+npm run build-assets:watch
+npm run server:watch
+```
+
+You can do this concurrently (in one terminal window) with:
+```
+npm run dev
 ```
 
 * Then enter the test data into the DB:
@@ -25,14 +32,19 @@ npm i
 npm run stub-data
 ```
 
-* In one terminal start webpack with a watch (so changes in the UI are live-updated):
+=======
+## Tests
+
+To run the tests you will need docker installed and available via the command line.
+It will be used to automatically start external test dependencies like mongo and selenium.
+You can install docker using this command
 ```
-npm run build-assets:watch
+curl https://get.docker.com | bash
 ```
 
-* In the second terminal window start the server:
+You can run the tests with a simple command:
 ```
-npm run server:watch
+npm test
 ```
 
 ## License

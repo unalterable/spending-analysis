@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Link from 'react-router-dom/Link';
@@ -27,8 +28,8 @@ function ButtonAppBar(props) {
       <AppBar position="static">
         <Toolbar>
           Spending Analysis
-          <Link to="/">Home</Link>
-          <Link to="/importer">Importer</Link>
+          <Link to="/"><Button>Home</Button></Link>
+          <Link to="/importer"><Button>Importer</Button></Link>
         </Toolbar>
       </AppBar>
     </div>

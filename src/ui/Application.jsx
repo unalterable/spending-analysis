@@ -1,10 +1,7 @@
 import React from 'react';
 import Route from 'react-router-dom/Route';
-import Link from 'react-router-dom/Link';
 import axios from 'axios';
 import purple from '@material-ui/core/colors/purple';
-import red from '@material-ui/core/colors/red';
-import Button from '@material-ui/core/Button';
 import Theme from './Theme.jsx';
 import TopNav from './components/TopNav.jsx';
 import Statement from './components/Statement.jsx';
@@ -34,6 +31,7 @@ class Application extends React.Component {
             path="/"
             component={() => (
               <div>
+                <FinancialPlot data={this.state.data} />
                 <Statement data={this.state.data} />
               </div>
             )}

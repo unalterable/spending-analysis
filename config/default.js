@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Base App',
+  title: 'Spending Analysis App',
   db: {
     mongo: {
       dbName: 'spending-analysis',

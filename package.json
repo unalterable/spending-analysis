@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build-assets:prod && npm run server",
-    "dev": "concurrently -k -p '{time} {name}:' -t 'HH:ss' -n 'Assets,Server' -c 'green,magenta' 'npm run build-assets:watch' 'npm run server:watch'",
+    "dev": "concurrently -k -p '{time} {name}:' -t 'HH:mm:ss' -n 'Assets,Server' -c 'green,magenta' 'npm run build-assets:watch' 'npm run server:watch'",
     "start-mongo": "docker run --rm -d mongo:latest",
     "stub-data": "node scripts/stub-data.js",
     "test": "npm run build-assets && mocha test/**/*.test.js --require test/helpers/setup --timeout=60000 --exit",
@@ -40,6 +40,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
+    "react-vis": "^1.11.6",
     "webpack": "^4.12.0"
   },
   "devDependencies": {

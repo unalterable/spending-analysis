@@ -1,5 +1,4 @@
 import React from 'react';
-import Plot from 'react-plotly.js';
 
 const formatCurrency = num => num/100;
 
@@ -43,13 +42,12 @@ const FinancialPlot = ({data}) => {
     title: 'A Fancy Plot',
     width: 1200,
   };
-  return (
-    <Plot
-      data={populateApplication(data)}
-      layout={layout}
-      onClick={console.log /*eslint-disable-line no-console*/}
-    />
-  );
+  return null;
+  /* (
+   *   <Plot
+   *     data={populateApplication(data)}
+   *     layout={layout}
+   *     onClick={console.log /*eslint-disable-line no-console*/
 };
 
 export default FinancialPlot;

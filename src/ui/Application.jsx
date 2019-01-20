@@ -7,9 +7,10 @@ import red from '@material-ui/core/colors/red';
 import Button from '@material-ui/core/Button';
 import Theme from './Theme.jsx';
 import TopNav from './components/TopNav.jsx';
-/* import FinancialPlot from './components/FinancialPlot.jsx'; */
 import Statement from './components/Statement.jsx';
 import Importer from './components/Importer.jsx';
+import FinancialPlot from './components/FinancialPlot.jsx';
+
 
 class Application extends React.Component {
   constructor(props) {
@@ -20,7 +21,6 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
-    console.log('21127', 21127)
     axios.get('http://localhost:3000/api/data').then(({ data }) => this.setState({ data }));
   }
 
@@ -29,11 +29,6 @@ class Application extends React.Component {
       <Theme primary={this.state.primaryColour}>
         <TopNav />
         <div>
-          <div>
-            <Link to="/">Home</Link>
-            <Link to="/importer">Importer</Link>
-          </div>
-          <hr />
           <Route
             exact
             path="/"

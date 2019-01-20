@@ -26,10 +26,9 @@ function ButtonAppBar(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          Base Application
+          Spending Analysis
           <Link to="/">Home</Link>
-          <Link to="/about/">About</Link>
-          <Link to="/users/">Users</Link>
+          <Link to="/importer">Importer</Link>
         </Toolbar>
       </AppBar>
     </div>

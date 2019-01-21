@@ -27,8 +27,9 @@ class FinancialPlot extends React.Component {
 
   render(){
     const { classes, data = [] } = this.props;
+    const { zoom, zoomedDate, crosshair } = this.state;
     const xDomain = this.state.zoom
-      ? [ moment(this.state.crosshair[0].x).startOf('month').toDate(), moment(this.state.crosshair[0].x).endOf('month').toDate() ]
+      ? [ zoomedDate.startOf('month').toDate(), zoomedDate.endOf('month').toDate() ]
       : [new Date(get(data[0], 'date') || 0), new Date(get(last(data), 'date') || 0)];
     return (
       <Paper className={classes.main}>
@@ -36,7 +37,7 @@ class FinancialPlot extends React.Component {
           width={900}
           height={400}
           xType="time"
-          onClick={() => this.setState({ zoom: !this.state.zoom })}
+          onClick={() => this.setState({ zoom: !zoom, zoomedDate: moment(crosshair[0].x) })}
           xDomain={xDomain}
           animation={{ duration: 100 }}
         >
@@ -63,7 +64,7 @@ class FinancialPlot extends React.Component {
               { x: new Date(date), y: spendingSoFarThisMonth/100 }
             ))}
           />
-          <Crosshair values={this.state.crosshair} />
+          <Crosshair values={crosshair} />
         </XYPlot>
       </Paper>
     );

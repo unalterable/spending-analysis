@@ -11,7 +11,7 @@ const initRoutes = () => {
   const transactionController = initTransactionController(store);
 
   const app = express();
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ limit: '10mb' }));
 
   app.use('/assets', validateUserRoles(['user']), express.static('assets'));
 

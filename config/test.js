@@ -7,4 +7,5 @@ module.exports = {
       url: raw(mongo.getUrl()),
     },
   },
+  jwtKey: 'AN INSECURE SECRET',
 };

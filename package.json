@@ -33,6 +33,7 @@
     "config": "^3.0.1",
     "csv-parse": "^2.0.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "jss": "^9.8.7",
     "lodash": "^4.17.11",
     "moment": "^2.20.1",

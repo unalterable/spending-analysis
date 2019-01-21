@@ -3,7 +3,6 @@ module.exports = {
   db: {
     mongo: {
       dbName: 'spending-analysis',
-      url: 'mongodb://localhost:27017',
     },
   },
 };

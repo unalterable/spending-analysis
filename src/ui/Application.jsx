@@ -18,7 +18,7 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/api/data').then(({ data }) => this.setState({ data }));
+    axios.get('/api/data').then(({ data }) => this.setState({ data }));
   }
 
   render() {

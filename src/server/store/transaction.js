@@ -3,11 +3,11 @@ const uuidv4 = require('uuid/v4');
 module.exports = ({ getCollection }) => {
   const getTransactions = () => getCollection('transaction');
   return {
-    getAll: () => getTransactions()
+    getAll: (userId) => getTransactions()
       .then(collection => collection
-        .find({}).project({ _id: 0 }).toArray()),
-    insertMany: transactions => getTransactions()
+        .find({ userId }).project({ _id: 0 }).toArray()),
+    insertMany: (userId, transactions) => getTransactions()
       .then(collection => collection
-        .insertMany(transactions.map(t => ({ ...t, id: uuidv4() })))),
+        .insertMany(transactions.map(t => ({ ...t, userId, id: uuidv4() })))),
   };
 };

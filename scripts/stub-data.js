@@ -6,16 +6,15 @@ const getFile = (filePath) => fs.readFileSync(filePath).toString();
 const rentStrings = require('../test/rent-strings.json');
 const csvAsJson = parseCSV(getFile('./test/test-data.csv'), {columns: true});
 
+const userId = '11111111-1111-1111-1111-111111111112';
+
 const store = initStore();
 
 Promise.resolve()
-  .then(() => store.transactions.insertMany(csvAsJson))
+  .then(() => store.transactions.insertMany(userId, csvAsJson))
   .then(() => console.info('inserted transactions')) // eslint-disable-line no-console
-  .then(() => store.rentStrings.insertMany(rentStrings))
+  .then(() => store.rentStrings.insertMany(userId, rentStrings))
   .then(() => console.info('inserted rent strings')) // eslint-disable-line no-console
   .then(() => store.getConnection())
   .then(connection => connection.close())
-  .catch(e => {
-    console.error(e);
-    process.exit(1);
-  });
+  .catch(e => { console.error(e); process.exit(1); });

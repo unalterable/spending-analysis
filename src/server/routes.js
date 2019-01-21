@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import initStore from './store';
 import indexController from './controllers/index';
 import initTransactionController from './controllers/transaction';
+import { validateUserRoles } from '../server/middleware/index';
 
 const initRoutes = () => {
   const store = initStore();
@@ -12,12 +13,12 @@ const initRoutes = () => {
   const app = express();
   app.use(bodyParser.json());
 
-  app.use('/assets', express.static('assets'));
+  app.use('/assets', validateUserRoles(['user']), express.static('assets'));
 
-  app.get('/api/data', transactionController.data);
-  app.post('/api/save-transactions', transactionController.saveTransactions);
+  app.get('/api/data', validateUserRoles(['user']), transactionController.data);
+  app.post('/api/save-transactions', validateUserRoles(['user']), transactionController.saveTransactions);
 
-  app.get('/*', indexController.showIndex);
+  app.get('/*', validateUserRoles(['user']), indexController.showIndex);
 
   return app;
 };

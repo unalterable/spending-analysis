@@ -44,7 +44,7 @@ class Importer extends React.Component {
   }
 
   saveImports() {
-    axios.post('http://localhost:3000/save-transactions', this.state.parsedData);
+    axios.post('/api/save-transactions', this.state.parsedData);
   }
 
   render() {
@@ -70,10 +70,7 @@ class Importer extends React.Component {
               >
                 <option disabled selected>Please Select</option>
                 {parsedHeaders.map(parsedHeader => (
-                  <option
-                    key={parsedHeader}
-                    value={parsedHeader}
-                  >
+                  <option key={parsedHeader} value={parsedHeader} >
                     {parsedHeader}
                   </option>
                 ))}

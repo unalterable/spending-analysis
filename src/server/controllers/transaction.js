@@ -11,7 +11,7 @@ const initTransactionController = (store) => {
   const saveTransactions = async (req, res) => {
     const userId = req.jwt.user.id;
     const newData = [].concat(req.body);
-    await store.insertTransactions(userId, newData);
+    await store.transactions.insertMany(userId, newData);
     res.sendStatus(204);
   };
 

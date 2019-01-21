@@ -3,38 +3,42 @@ const config = require('config');
 const initRentStringCollection = require('./rent-string');
 const initTransactionCollection = require('./transaction');
 
-const dbName = config.get('db.mongo.dbName');
+const mongoOpts = { useNewUrlParser: true, autoReconnect: false };
+
+const getAuth = () => config.has('db.mongo.user') && config.has('db.mongo.password')
+                    ? { auth: { user: config.get('db.mongo.user'), password: config.get('db.mongo.password') } }
+                    : {};
 
 const getConnection = (connectionAttempt => () => {
   if (!connectionAttempt) {
-    connectionAttempt = Promise.resolve()
-      .then(() => config.get('db.mongo.url'))
-      .then(url => MongoClient.connect(url, { useNewUrlParser: true, autoReconnect: false }))
-      .then(conn => {
+    connectionAttempt = (async () => {
+      try {
+        const url = await config.get('db.mongo.url');
+        const connection = await MongoClient.connect(url, { ...mongoOpts, ...getAuth() });
         console.info('Mongo connection established');
-        conn.on('close', () => {
+
+        connection.on('close', () => {
           console.info('Mongo connection terminated');
           connectionAttempt = null;
         });
-        return conn;
-      })
-      .catch((err) => {
+
+        return connection;
+      } catch (err) {
         connectionAttempt = null;
         throw Error(`Mongo connection failed: ${err.message}`);
-      });
+      }
+    })();
   }
   return connectionAttempt;
 })(null);
 
-const initStore = () => {
-  const getCollection = (collectionName) => getConnection()
-    .then(connection => connection.db(dbName).collection(collectionName));
+const getCollection = (collectionName) => getConnection()
+  .then(connection => connection.db(config.get('db.mongo.dbName')).collection(collectionName));
 
-  return {
-    getConnection,
-    rentStrings: initRentStringCollection({ getCollection }),
-    transactions: initTransactionCollection({ getCollection }),
-  };
-};
+const initStore = () => ({
+  getConnection,
+  rentStrings: initRentStringCollection({ getCollection }),
+  transactions: initTransactionCollection({ getCollection }),
+});
 
 module.exports = initStore;

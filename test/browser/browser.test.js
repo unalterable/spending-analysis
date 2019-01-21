@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { selenium } = require('../helpers');
 
-describe('Page', () => {
+describe.skip('Page', () => {
   let browser;
 
   before(async () => {
@@ -10,6 +10,6 @@ describe('Page', () => {
 
   it('deletes the document with that id in the db, responds with 200 and no data', async () => {
     const title = await browser.getTitle();
-    expect(title).to.equal('Base App');
+    expect(title).to.equal('Spending Analysis App');
   });
 });

@@ -14,8 +14,8 @@
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore .",
     "lint-fix": "eslint --ext .js,.jsx --ignore-path .gitignore . --fix",
     "build-assets": "webpack --config webpack.dev.js",
-    "build-assets:watch": "webpack --config webpack.dev.js --watch",
     "build-assets:prod": "webpack --config webpack.prod.js",
+    "build-assets:watch": "webpack --config webpack.dev.js --watch",
     "eject": "bash scripts/eject.sh"
   },
   "author": "",

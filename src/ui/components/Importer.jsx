@@ -44,7 +44,7 @@ class Importer extends React.Component {
   }
 
   saveImports() {
-    axios.post('/api/save-transactions', this.state.parsedData);
+    axios.post('/spending-analysis/api/save-transactions', this.state.parsedData);
   }
 
   render() {

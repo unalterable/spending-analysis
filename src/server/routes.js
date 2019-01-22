@@ -13,12 +13,12 @@ const initRoutes = () => {
   const app = express();
   app.use(bodyParser.json({ limit: '10mb' }));
 
-  app.use('/assets', validateUserRoles(['user']), express.static('assets'));
+  app.use('/spending-analysis/assets', validateUserRoles(['user']), express.static('assets'));
 
-  app.get('/api/data', validateUserRoles(['user']), transactionController.data);
-  app.post('/api/save-transactions', validateUserRoles(['user']), transactionController.saveTransactions);
+  app.get('/spending-analysis/api/data', validateUserRoles(['user']), transactionController.data);
+  app.post('/spending-analysis/api/save-transactions', validateUserRoles(['user']), transactionController.saveTransactions);
 
-  app.get('/*', validateUserRoles(['user']), indexController.showIndex);
+  app.get('/spending-analysis/*', validateUserRoles(['user']), indexController.showIndex);
 
   return app;
 };

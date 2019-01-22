@@ -18,7 +18,7 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/data').then(({ data }) => this.setState({ data }));
+    axios.get('/spending-analysis/api/data').then(({ data }) => this.setState({ data }));
   }
 
   render() {
@@ -28,7 +28,7 @@ class Application extends React.Component {
         <div>
           <Route
             exact
-            path="/"
+            path="/spending-analysis/"
             component={() => (
               <div>
                 <FinancialPlot data={this.state.data} />
@@ -36,7 +36,7 @@ class Application extends React.Component {
               </div>
             )}
           />
-          <Route path="/importer" component={Importer} />
+          <Route path="/spending-analysis/importer" component={Importer} />
         </div>
       </Theme>
     );

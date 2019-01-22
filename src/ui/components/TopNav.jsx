@@ -28,8 +28,8 @@ function ButtonAppBar(props) {
       <AppBar position="static">
         <Toolbar>
           Spending Analysis
-          <Link to="/"><Button>Home</Button></Link>
-          <Link to="/importer"><Button>Importer</Button></Link>
+          <Link to="/spending-analysis/"><Button>Home</Button></Link>
+          <Link to="/spending-analysis/importer"><Button>Importer</Button></Link>
         </Toolbar>
       </AppBar>
     </div>

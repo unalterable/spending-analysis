@@ -29,7 +29,7 @@ class FinancialPlot extends React.Component {
     const { classes, data = [] } = this.props;
     const { zoom, zoomedDate, crosshair } = this.state;
     const xDomain = this.state.zoom
-      ? [ zoomedDate.startOf('year').toDate(), zoomedDate.endOf('year').toDate() ]
+      ? [ zoomedDate.subtract(6, 'months').toDate(), zoomedDate.add(6, 'months').toDate() ]
       : [new Date(get(data[0], 'date') || 0), new Date(get(last(data), 'date') || 0)];
     return (
       <Paper className={classes.main}>

@@ -17,7 +17,7 @@ const styles = theme => ({
 });
 
 const Statement = ({ classes, data }) => {
-  const rows = data ? data.reverse().map(row => (
+  const rows = data ? data.slice().reverse().map(row => (
     <Day key={row.date} {...row} />
   )) : null;
 

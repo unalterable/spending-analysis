@@ -4,6 +4,10 @@ import mapValues from 'lodash/mapValues';
 import keyBy from 'lodash/keyBy';
 import merge from 'lodash/merge';
 import parseCSV from 'csv-parse/lib/sync';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import withStyles from '@material-ui/core/styles/withStyles';
+
 import transaction from '../../shared/transaction.js';
 import TransactionTable from './TransactionTable.jsx';
 
@@ -12,6 +16,22 @@ const REQUIRED_KEYS = ['Date', 'Description', 'Value', 'Balance'];
 const HEADERS_MAPPED = 'HeadersMapped';
 const DATA_PARSED = 'DataParsed';
 const INITIAL_INPUT = 'InitialInput';
+
+const styles = theme => ({
+  main: {
+    display: 'block', // Fix IE 11 issue.
+    width: 1000,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: theme.spacing.unit * 8,
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  textAreaInput: {
+    width: '100%',
+    height: '700px',
+  },
+});
 
 class Importer extends React.Component {
   constructor(){
@@ -48,17 +68,18 @@ class Importer extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     if(this.state.stage === HEADERS_MAPPED) {
       return (
-        <div>
-          <button onClick={this.saveImports.bind(this)}>Save</button>
+        <Paper className={classes.main}>
           <TransactionTable transactions={this.state.parsedData.map(transaction)} />
-        </div>
+          <Button onClick={this.saveImports.bind(this)}>Save</Button>
+        </Paper>
       );
     } else if (this.state.stage === DATA_PARSED) {
       const parsedHeaders = Object.keys(this.state.parsedData[0]);
       return (
-        <div>
+        <Paper className={classes.main}>
           <button onClick={this.mapHeaders.bind(this)}>Map Headers</button>
           {REQUIRED_KEYS.map((requiredKey, i) => (
             <div key={i}>
@@ -77,17 +98,17 @@ class Importer extends React.Component {
               </select>
             </div>
           ))}
-        </div>
+        </Paper>
       );
     }
     return (
-      <div>
-        <button onClick={this.parsePotentialImports.bind(this)}>Parse</button>
-        <textarea name={INITIAL_INPUT} onChange={this.recordInput.bind(this)} />
-      </div>
+      <Paper className={classes.main}>
+        <textarea name={INITIAL_INPUT} onChange={this.recordInput.bind(this)} className={classes.textAreaInput} />
+        <Button onClick={this.parsePotentialImports.bind(this)}>Parse</Button>
+      </Paper>
     );
   }
 }
 
-export default Importer;
+export default withStyles(styles)(Importer);
 

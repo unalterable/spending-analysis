@@ -7,6 +7,7 @@ import TopNav from './components/TopNav.jsx';
 import Statement from './components/Statement.jsx';
 import Importer from './components/Importer.jsx';
 import FinancialPlot from './components/FinancialPlot.jsx';
+import RentStrings from './components/RentStrings.jsx';
 
 
 class Application extends React.Component {
@@ -37,6 +38,7 @@ class Application extends React.Component {
             )}
           />
           <Route path="/spending-analysis/importer" component={Importer} />
+          <Route path="/spending-analysis/rent-strings" component={RentStrings} />
         </div>
       </Theme>
     );

@@ -17,8 +17,8 @@ class Day extends React.Component {
   render(){
     const row = this.props;
     return (
-      <tbody onClick={this.toggleExpand.bind(this)}>
-        <tr>
+      <tbody >
+        <tr onClick={this.toggleExpand.bind(this)}>
           <td>{formatDate(row.date)}</td>
           <td style={row.spending < -50000 ? {color: '#F00'} : {}} align='right'>{formatCurrency(row.spending)}</td>
           <td align='right'>{formatCurrency(row.income)}</td>

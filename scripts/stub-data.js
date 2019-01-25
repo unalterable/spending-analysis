@@ -13,7 +13,7 @@ const store = initStore();
 Promise.resolve()
   .then(() => store.transactions.insertMany(userId, csvAsJson))
   .then(() => console.info('inserted transactions')) // eslint-disable-line no-console
-  .then(() => store.rentStrings.insertMany(userId, rentStrings))
+  .then(() => Promise.all(rentStrings.map(string => store.rentStrings.insertOne(userId, string))))
   .then(() => console.info('inserted rent strings')) // eslint-disable-line no-console
   .then(() => store.getConnection())
   .then(connection => connection.close())

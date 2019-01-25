@@ -1,10 +1,10 @@
-const analysis = require('../analysis/index')
+const analysis = require('../analysis/index');
 
 const initTransactionController = (store) => {
   const data = async (req, res) => {
     const userId = req.jwt.user.id;
     const [statement, rentStrings] = await Promise.all([store.transactions.getAll(userId), store.rentStrings.getAll(userId)]);
-    const json = await analysis({ statement, rentStrings });
+    const json = await analysis({ statement, rentStrings: rentStrings.map(({string}) => string) });
     res.send(json);
   };
 

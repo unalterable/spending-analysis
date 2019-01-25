@@ -17,11 +17,8 @@ module.exports = {
         <StaticRouter location={req.url} context={{}} >
           <Application {...initialState} />
         </StaticRouter>
-      </ JssProvider>
+      </JssProvider>
     );
     res.send(html({ title, body, initialState, css: sheetsRegistry.toString() }));
-  },
-  async showData(req, res) {
-    res.json({ hello: 'world' });
   },
 };

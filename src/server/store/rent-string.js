@@ -6,8 +6,11 @@ module.exports = ({ getCollection }) => {
     getAll: (userId) => getRentStrings()
       .then(collection => collection
         .find({ userId }).project({ _id: 0 }).toArray()),
+    insertOne: (userId, string) => getRentStrings()
+      .then(collection => collection
+        .insertOne(({ id: uuidv4(), userId, string }))),
     insertMany: (userId, rentStrings) => getRentStrings()
       .then(collection => collection
-        .insertMany(rentStrings.map(t => ({ ...t, userId, id: uuidv4() })))),
+        .insertMany(rentStrings.map(string => ({ id: uuidv4(), userId, string })))),
   };
 };

@@ -5,7 +5,7 @@ const newTransactionObj = require('../../shared/transaction.js');
 const rentChecker = require('./rent-checker.js');
 
 const createAnalysis = ({ statement, rentStrings }) => {
-  const isRent = rentChecker(rentStrings.map(({rentString}) => rentString));
+  const isRent = rentChecker(rentStrings);
 
   const collectTransactions = transactions => {
     return [].concat(
@@ -44,8 +44,7 @@ const createAnalysis = ({ statement, rentStrings }) => {
   const keyByDateAndCategory = (transactions) => {
     return transactions.reduce((memo, t) =>
       _.update(memo, [t.date, category(t)], val => (val || []).concat(t)),
-    {}
-    );
+    {});
   };
 
   const total = (transactions) => {

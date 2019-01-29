@@ -5,7 +5,7 @@ const jwt = require( 'jsonwebtoken');
 const JWT_PUBLIC_KEY = config.get('jwtKey');
 
 const validateUserRoles = requiredRoles => (req, res, next) => {
-  try{
+  try {
     const [name, value] = req.headers.cookie.split(' ')[0].split('=');
     if(name !== 'jwt') throw Error('JWT not found');
     const decodedJwt = jwt.verify(value, JWT_PUBLIC_KEY);

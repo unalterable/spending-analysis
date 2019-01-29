@@ -1,6 +1,21 @@
 import React from 'react';
+
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import withStyles from '@material-ui/core/styles/withStyles';
+
 import TransactionSection from './TransactionSection.jsx';
 import { formatDate, formatCurrency } from '../utils/format.js';
+
+const styles = theme => ({
+  dayRow: {
+    backgroundColor: '#eee',
+  },
+  dateCell: {
+    width: '20%',
+  },
+});
 
 class Day extends React.Component {
   constructor(props){
@@ -10,33 +25,31 @@ class Day extends React.Component {
     };
   }
   toggleExpand(){
-    this.setState({
-      expanded: !this.state.expanded,
-    });
+    this.setState({ expanded: !this.state.expanded });
   }
   render(){
-    const row = this.props;
+    const { classes, day } = this.props;
     return (
-      <tbody >
-        <tr onClick={this.toggleExpand.bind(this)}>
-          <td>{formatDate(row.date)}</td>
-          <td style={row.spending < -50000 ? {color: '#F00'} : {}} align='right'>{formatCurrency(row.spending)}</td>
-          <td align='right'>{formatCurrency(row.income)}</td>
-          <td align='right'>{formatCurrency(row.rent)}</td>
-          <td align='right'>{formatCurrency(row.balance)}</td>
-          <td align='right'>{formatCurrency(row.amortisedBalance)}</td>
-          <td align='right'>{formatCurrency(row.spendingSoFarThisMonth)}</td>
-        </tr>
+      <TableBody>
+        <TableRow className={classes.dayRow} onClick={this.toggleExpand.bind(this)}>
+          <TableCell  style={{ width: '20%' }}>{formatDate(day.date)}</TableCell>
+          <TableCell style={day.spending < -50000 ? {color: '#F00'} : {}} align="right">{formatCurrency(day.spending)}</TableCell>
+          <TableCell align="right">{formatCurrency(day.income)}</TableCell>
+          <TableCell align="right">{formatCurrency(day.rent)}</TableCell>
+          <TableCell align="right">{formatCurrency(day.balance)}</TableCell>
+          <TableCell align="right">{formatCurrency(day.amortisedBalance)}</TableCell>
+          <TableCell align="right">{formatCurrency(day.spendingSoFarThisMonth)}</TableCell>
+        </TableRow>
         { this.state.expanded && (
-          <tr>
-            <td colSpan={7} align='center'>
-              <TransactionSection {...row.transactions} />
-            </td>
-          </tr>
+            <TableRow className={classes.transactions}>
+              <TableCell colSpan={7} align="center">
+                <TransactionSection {...day.transactions} />
+              </TableCell>
+            </TableRow>
         ) }
-      </tbody>
+      </TableBody>
     );
   }
 }
 
-export default Day;
+export default withStyles(styles)(Day);

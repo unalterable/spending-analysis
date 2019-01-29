@@ -30,6 +30,11 @@ const createTheme = () => createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  overrides: {
+    MuiTableRow: { root: { height: '30px' } },
+    MuiTableCell: { root: { padding: '4px 10px' } },
+  },
+  
 });
 
 const Theme = ({ children }) => (

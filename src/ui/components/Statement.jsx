@@ -36,7 +36,10 @@ class Statement extends React.Component {
   }
 
   render () {
-    const { classes, data = [] } = this.props;
+    const { classes, data = [], focussedDate } = this.props;
+    const rowToScrollTo = data.findIndex(({ date }) => {
+      return new Date(date).toString() === new Date(focussedDate).toString();
+    });
     return (
       <Paper className={classes.main}>
         <Paper>
@@ -61,6 +64,7 @@ class Statement extends React.Component {
                 width={width}
                 rowCount={data.length}
                 rowHeight={this._cache.rowHeight}
+                scrollToIndex={rowToScrollTo}
                 rowRenderer={({ index, key, style, parent }) => (
                   <CellMeasurer
                     cache={this._cache}

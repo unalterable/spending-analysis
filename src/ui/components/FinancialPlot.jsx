@@ -23,8 +23,7 @@ class FinancialPlot extends React.Component {
   }
 
   handleSingleClick() {
-    console.log('crosshair', this.state.crosshair);
-    /* this.setState({ }); */
+    this.props.focusDate(this.state.crosshair[0].x);
   }
 
   handleDoubleClick() {

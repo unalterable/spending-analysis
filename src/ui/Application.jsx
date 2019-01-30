@@ -4,9 +4,8 @@ import axios from 'axios';
 import purple from '@material-ui/core/colors/purple';
 import Theme from './Theme.jsx';
 import TopNav from './components/TopNav.jsx';
-import Statement from './components/Statement.jsx';
 import Importer from './components/Importer.jsx';
-import FinancialPlot from './components/FinancialPlot.jsx';
+import Dashboard from './components/Dashboard.jsx';
 import RentStrings from './components/RentStrings.jsx';
 
 
@@ -30,12 +29,7 @@ class Application extends React.Component {
           <Route
             exact
             path="/spending-analysis/"
-            component={() => (
-              <div>
-                <FinancialPlot data={this.state.data} />
-                <Statement data={this.state.data} />
-              </div>
-            )}
+            component={(props) => <Dashboard {...props} data={this.state.data} />}
           />
           <Route path="/spending-analysis/importer" component={Importer} />
           <Route path="/spending-analysis/rent-strings" component={RentStrings} />

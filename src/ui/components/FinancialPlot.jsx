@@ -1,10 +1,7 @@
 import React from 'react';
-import moment from 'moment';
-import get from 'lodash/get';
-import last from 'lodash/last';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, Crosshair} from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, Crosshair, Highlight, Borders } from 'react-vis';
 
 const styles = theme => ({
   main: {
@@ -25,46 +22,76 @@ class FinancialPlot extends React.Component {
     this.state = {};
   }
 
+  handleSingleClick() {
+    console.log('crosshair', this.state.crosshair);
+    /* this.setState({ }); */
+  }
+
+  handleDoubleClick() {
+    this.setState({ zoomedRange: null });
+  }
+
+  handleBrushEvent(area){
+    if (area) {
+      setTimeout(() => {
+        this.clearClickTimeout();
+        this.setState({ zoomedRange: area });
+      }, 0);
+    }
+  }
+
+  clearClickTimeout() {
+    clearTimeout(this.clickTimeout);
+    this.clickTimeout = null;
+  }
+
+  handleClick() {
+    if (this.clickTimeout) {
+      this.clearClickTimeout();
+      this.handleDoubleClick();
+    } else {
+      this.clickTimeout = setTimeout(()=>{
+        this.clearClickTimeout();
+        this.handleSingleClick();
+      }, 500);
+    }
+  }
+
   render(){
     const { classes, data = [] } = this.props;
-    const { zoom, zoomedDate, crosshair } = this.state;
-    const xDomain = this.state.zoom
-      ? [ zoomedDate.subtract(6, 'months').toDate(), zoomedDate.add(6, 'months').toDate() ]
-      : [new Date(get(data[0], 'date') || 0), new Date(get(last(data), 'date') || 0)];
+    const { crosshair, zoomedRange } = this.state;
     return (
       <Paper className={classes.main}>
         <XYPlot
           width={900}
           height={400}
           xType="time"
-          onClick={() => this.setState({ zoom: !zoom, zoomedDate: moment(crosshair[0].x) })}
-          xDomain={xDomain}
+          onClick={() => this.handleClick()}
+          xDomain={zoomedRange && [ zoomedRange.left, zoomedRange.right ]}
           animation={{ duration: 100 }}
         >
           <HorizontalGridLines />
-          <XAxis
-          />
-          <YAxis />
           <LineSeries
             onNearestX={(datapoint) => this.setState({ crosshair: [datapoint] })}
             stroke="blue"
-            data={data.map(({ date, balance }) => (
-              { x: new Date(date), y: balance/100 }
-            ))}
+            data={data.map(({ date, balance }) => ({ x: new Date(date), y: balance/100 }))}
           />
           <LineSeries
             stroke="lightBlue"
-            data={data.map(({ date, amortisedBalance }) => (
-              { x: new Date(date), y: amortisedBalance/100 }
-            ))}
+            data={data.map(({ date, amortisedBalance }) => ({ x: new Date(date), y: amortisedBalance/100 }))}
           />
           <LineSeries
             stroke="red"
-            data={data.map(({ date, spendingSoFarThisMonth }) => (
-              { x: new Date(date), y: spendingSoFarThisMonth/100 }
-            ))}
+            data={data.map(({ date, spendingSoFarThisMonth }) => ({ x: new Date(date), y: spendingSoFarThisMonth/100 }))}
           />
           <Crosshair values={crosshair} />
+          <Highlight
+            enableY={false}
+            onBrushEnd={area => this.handleBrushEvent(area)}
+          />
+          <Borders style={{all: {fill: '#fff'}}} />
+          <XAxis />
+          <YAxis />
         </XYPlot>
       </Paper>
     );

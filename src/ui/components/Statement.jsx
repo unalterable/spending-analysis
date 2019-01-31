@@ -27,6 +27,7 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
   section: { width: '70%', margin: '50px auto' },
+  tableContent: { height: '800px' },
 });
 
 class Statement extends React.Component {
@@ -42,7 +43,7 @@ class Statement extends React.Component {
     });
     return (
       <Paper className={classes.main}>
-        <Paper>
+        <Paper >
           <Table width="100%">
             <TableHead>
               <TableRow>
@@ -56,26 +57,31 @@ class Statement extends React.Component {
               </TableRow>
             </TableHead>
           </Table>
-          <AutoSizer>
-            {({width}) => (
-              <List
-                ref={(ref) => this.list = ref}
-                height={800}
-                width={width}
-                rowCount={data.length}
-                rowHeight={this._cache.rowHeight}
-                scrollToIndex={rowToScrollTo}
-                rowRenderer={({ index, key, style, parent }) => (
-                  <CellMeasurer
-                    cache={this._cache}
-                    columnIndex={0}
-                    key={key}
-                    rowIndex={index}
-                    width={width}
-                    parent={parent}
-                  >
-                    <div style={style}>
-                      <ExpansionPanel onChange={() => this._resizeAll(index)}>
+          <div className={classes.tableContent} >
+            <AutoSizer>
+              {({width}) => (
+                <List
+                  ref={(ref) => this.list = ref}
+                  height={800}
+                  width={width}
+                  rowCount={data.length}
+                  rowHeight={this._cache.rowHeight}
+                  scrollToIndex={rowToScrollTo}
+                  rowRenderer={({ index, key, style, parent }) => (
+                    <CellMeasurer
+                      cache={this._cache}
+                      columnIndex={0}
+                      key={key}
+                      rowIndex={index}
+                      width={width}
+                      parent={parent}
+                    >
+                      <ExpansionPanel
+                        style={style}
+                        square={true}
+                        classes={{ root: classes.expansionPanel, expanded: classes.expansionPanelExpanded }}
+                        onChange={() => this._resizeAll(index)}
+                      >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                           <span style={{ width: '20%' }}>{formatDate(data[index].date)}</span>
                           <span style={data[index].spending < -50000 ? {color: '#F00'} : {}} align="right">{formatCurrency(data[index].spending)}</span>
@@ -89,12 +95,12 @@ class Statement extends React.Component {
                           <TransactionSection {...data[index].transactions} />
                         </ExpansionPanelDetails>
                       </ExpansionPanel>
-                    </div>
-                  </CellMeasurer>
-                )}
-              />
-            )}
-          </AutoSizer>
+                    </CellMeasurer>
+                  )}
+                />
+              )}
+            </AutoSizer>
+          </div>
         </Paper>
       </Paper>
     );
@@ -104,7 +110,7 @@ class Statement extends React.Component {
     setTimeout(() => {
       this._cache.clearAll(i);
       this.list.recomputeRowHeights(i);
-    }, 300);
+    }, 200);
   }
 }
 

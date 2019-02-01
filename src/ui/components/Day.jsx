@@ -4,10 +4,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import TransactionSection from './TransactionSection.jsx';
+import TransactionTable from './TransactionTable.jsx';
 import { formatDate, formatCurrency } from '../utils/format.js';
 
 
@@ -52,6 +51,7 @@ ExpansionPanelSummary.muiName = 'ExpansionPanelSummary';
 const ExpansionPanelDetails = withStyles(theme => ({
   root: {
     padding: theme.spacing.unit * 2,
+    display: 'block',
   },
 }))(props => <MuiExpansionPanelDetails {...props} />);
 
@@ -85,7 +85,12 @@ class Day extends React.Component {
           <span align="right">{formatCurrency(day.spendingSoFarThisMonth)}</span>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <TransactionSection {...day.transactions} />
+          {Object.keys(day.transactions).length > 0
+            ? Object.entries(day.transactions).map(([name, transactions]) => (
+                <TransactionTable key={name} title={name} transactions={transactions} />
+            ))
+            : (<div>No Transactions</div>)
+          }
         </ExpansionPanelDetails>
       </ExpansionPanel>
 

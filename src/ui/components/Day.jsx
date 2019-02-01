@@ -1,53 +1,94 @@
 import React from 'react';
 
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import TransactionSection from './TransactionSection.jsx';
 import { formatDate, formatCurrency } from '../utils/format.js';
 
-const styles = theme => ({
-  dayRow: {
-    backgroundColor: '#eee',
+
+const ExpansionPanel = withStyles({
+  root: {
+    border: '1px solid rgba(0,0,0,.125)',
+    boxShadow: 'none',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
   },
-  dateCell: {
-    width: '20%',
+  expanded: {
+    margin: 'auto',
+  },
+})(props => <MuiExpansionPanel {...props} />);
+
+const ExpansionPanelSummary = withStyles({
+  root: {
+    backgroundColor: 'rgba(0,0,0,.03)',
+    transition: 'background-color 2s',
+    borderBottom: '1px solid rgba(0,0,0,.125)',
+    marginBottom: -1,
+    minHeight: 30,
+    '&$expanded': {
+      minHeight: 30,
+    },
+  },
+  content: {
+    margin: '5px 0',
+    '&$expanded': {
+      margin: '5px 0',
+    },
+  },
+  expanded: {},
+})(props => <MuiExpansionPanelSummary {...props} />);
+
+ExpansionPanelSummary.muiName = 'ExpansionPanelSummary';
+
+const ExpansionPanelDetails = withStyles(theme => ({
+  root: {
+    padding: theme.spacing.unit * 2,
+  },
+}))(props => <MuiExpansionPanelDetails {...props} />);
+
+const styles = theme => ({
+  highlighted: {
+    backgroundColor: theme.palette.secondary.light,
   },
 });
 
 class Day extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      expanded: false,
-    };
+    this.state = { highlighted: props.selected };
   }
-  toggleExpand(){
-    this.setState({ expanded: !this.state.expanded });
+
+  componentDidMount () {
+    this.setState({ highlighted: false });/* setTimeout(() => this.setState({ highlighted: false }), 1000); */
   }
+
   render(){
-    const { classes, day } = this.props;
+    const { classes, day, onSizeChange, style } = this.props;
     return (
-      <TableBody>
-        <TableRow className={classes.dayRow} onClick={this.toggleExpand.bind(this)}>
-          <TableCell  style={{ width: '20%' }}>{formatDate(day.date)}</TableCell>
-          <TableCell style={day.spending < -50000 ? {color: '#F00'} : {}} align="right">{formatCurrency(day.spending)}</TableCell>
-          <TableCell align="right">{formatCurrency(day.income)}</TableCell>
-          <TableCell align="right">{formatCurrency(day.rent)}</TableCell>
-          <TableCell align="right">{formatCurrency(day.balance)}</TableCell>
-          <TableCell align="right">{formatCurrency(day.amortisedBalance)}</TableCell>
-          <TableCell align="right">{formatCurrency(day.spendingSoFarThisMonth)}</TableCell>
-        </TableRow>
-        { this.state.expanded && (
-            <TableRow className={classes.transactions}>
-              <TableCell colSpan={7} align="center">
-                <TransactionSection {...day.transactions} />
-              </TableCell>
-            </TableRow>
-        ) }
-      </TableBody>
+      <ExpansionPanel style={style} square={true} onChange={() => onSizeChange()} >
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={this.state.highlighted ? classes.highlighted : ''}>
+          <span style={{ width: '20%' }}>{formatDate(day.date)}</span>
+          <span style={day.spending < -50000 ? {color: '#F00'} : {}} align="right">{formatCurrency(day.spending)}</span>
+          <span align="right">{formatCurrency(day.income)}</span>
+          <span align="right">{formatCurrency(day.rent)}</span>
+          <span align="right">{formatCurrency(day.balance)}</span>
+          <span align="right">{formatCurrency(day.amortisedBalance)}</span>
+          <span align="right">{formatCurrency(day.spendingSoFarThisMonth)}</span>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <TransactionSection {...day.transactions} />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
     );
   }
 }

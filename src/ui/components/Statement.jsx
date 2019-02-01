@@ -1,9 +1,5 @@
 import React from 'react';
 import Table from '@material-ui/core/Table';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,8 +9,7 @@ import CellMeasurer, {
   CellMeasurerCache,
 } from 'react-virtualized/dist/commonjs/CellMeasurer';
 import { AutoSizer, List } from 'react-virtualized';
-import TransactionSection from './TransactionSection.jsx';
-import { formatDate, formatCurrency } from '../utils/format.js';
+import Day from './Day.jsx';
 
 const styles = theme => ({
   main: {
@@ -27,7 +22,7 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
   section: { width: '70%', margin: '50px auto' },
-  tableContent: { height: '800px' },
+  tableContent: { height: '400px' },
 });
 
 class Statement extends React.Component {
@@ -38,7 +33,7 @@ class Statement extends React.Component {
 
   render () {
     const { classes, data = [], focussedDate } = this.props;
-    const rowToScrollTo = data.findIndex(({ date }) => {
+    const selectedRow = data.findIndex(({ date }) => {
       return new Date(date).toString() === new Date(focussedDate).toString();
     });
     return (
@@ -62,39 +57,14 @@ class Statement extends React.Component {
               {({width}) => (
                 <List
                   ref={(ref) => this.list = ref}
-                  height={800}
+                  height={400}
                   width={width}
                   rowCount={data.length}
                   rowHeight={this._cache.rowHeight}
-                  scrollToIndex={rowToScrollTo}
+                  scrollToIndex={selectedRow}
                   rowRenderer={({ index, key, style, parent }) => (
-                    <CellMeasurer
-                      cache={this._cache}
-                      columnIndex={0}
-                      key={key}
-                      rowIndex={index}
-                      width={width}
-                      parent={parent}
-                    >
-                      <ExpansionPanel
-                        style={style}
-                        square={true}
-                        classes={{ root: classes.expansionPanel, expanded: classes.expansionPanelExpanded }}
-                        onChange={() => this._resizeAll(index)}
-                      >
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                          <span style={{ width: '20%' }}>{formatDate(data[index].date)}</span>
-                          <span style={data[index].spending < -50000 ? {color: '#F00'} : {}} align="right">{formatCurrency(data[index].spending)}</span>
-                          <span align="right">{formatCurrency(data[index].income)}</span>
-                          <span align="right">{formatCurrency(data[index].rent)}</span>
-                          <span align="right">{formatCurrency(data[index].balance)}</span>
-                          <span align="right">{formatCurrency(data[index].amortisedBalance)}</span>
-                          <span align="right">{formatCurrency(data[index].spendingSoFarThisMonth)}</span>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                          <TransactionSection {...data[index].transactions} />
-                        </ExpansionPanelDetails>
-                      </ExpansionPanel>
+                    <CellMeasurer cache={this._cache} columnIndex={0} key={key} rowIndex={index} width={width} parent={parent} >
+                      <Day day={data[index]} style={style} onSizeChange={() => this._resizeAll(index)} selected={index === selectedRow}/>
                     </CellMeasurer>
                   )}
                 />

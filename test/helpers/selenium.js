@@ -1,4 +1,4 @@
-const webdriverio = require('webdriverio');
+const { remote } = require('webdriverio');
 const dockerStarter = require('docker-starter');
 const server = require('./server');
 
@@ -25,17 +25,17 @@ const browserHandle = (() => {
     getDomain: () => `http://172.17.0.1:${server.getPort()}`,
     getBrowser: async () => {
       if (!browser) {
-        if (!browser) {
-          const { host, port } = selenium.ensureRunning();
-          browser = await webdriverio.remote(buildWdOpts({ host, port }));
-        }
+        const { host, port } = selenium.ensureRunning();
+        browser = await remote(buildWdOpts({ host, port }));
         await browser.url(handle.getDomain());
       }
-      return { browser };
+      return browser;
     },
     closeBrowser: async () => {
-      await browser.closeWindow();
-      browser = null;
+      if(browser){
+        await browser.deleteSession();
+        browser = null;
+      }
     },
     restartBrowser: async () => {
       await handle.closeBrowser();

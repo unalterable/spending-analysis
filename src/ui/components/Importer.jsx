@@ -10,6 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import transaction from '../../shared/transaction.js';
 import TransactionTable from './TransactionTable.jsx';
+import Alert from './Alert.jsx';
 
 const REQUIRED_KEYS = ['Date', 'Description', 'Value', 'Balance'];
 
@@ -34,16 +35,16 @@ const styles = theme => ({
 });
 
 class Importer extends React.Component {
-  constructor(){
+  constructor() {
     super();
-    this.state = { };
+    this.state = {};
   }
 
   recordInput(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  parsePotentialImports(){
+  parsePotentialImports() {
     const parsedData = parseCSV(this.state[INITIAL_INPUT], { columns: true });
     this.setState({
       stage: DATA_PARSED,
@@ -53,7 +54,7 @@ class Importer extends React.Component {
   }
 
   changeHeaderMapping(e) {
-    this.setState(merge({}, this.state, { headerMappings: { [e.target.name]: e.target.value }}));
+    this.setState(merge({}, this.state, { headerMappings: { [e.target.name]: e.target.value } }));
   }
 
   mapHeaders() {
@@ -64,14 +65,20 @@ class Importer extends React.Component {
   }
 
   saveImports() {
-    axios.post('/spending-analysis/api/save-transactions', this.state.parsedData);
+    axios.post('/spending-analysis/api/save-transactions', this.state.parsedData)
+      .catch(() => this.setState({ errMsg: 'Duplicate or invalid transactions' }));
   }
 
   render() {
     const { classes } = this.props;
-    if(this.state.stage === HEADERS_MAPPED) {
+    if (this.state.stage === HEADERS_MAPPED) {
       return (
         <Paper className={classes.main}>
+          <Alert
+            variant="error"
+            message={this.state.errMsg}
+            open={!!this.state.errMsg}
+            onClose={() => this.setState({ errMsg: null })} />
           <TransactionTable transactions={this.state.parsedData.map(transaction)} />
           <Button onClick={this.saveImports.bind(this)}>Save</Button>
         </Paper>

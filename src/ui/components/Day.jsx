@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -32,6 +33,7 @@ const ExpansionPanelSummary = withStyles({
     transition: 'background-color 2s',
     borderBottom: '1px solid rgba(0,0,0,.125)',
     marginBottom: -1,
+    padding: '0 40px 0 20px',
     minHeight: 30,
     '&$expanded': {
       minHeight: 30,
@@ -76,18 +78,20 @@ class Day extends React.Component {
     return (
       <ExpansionPanel style={style} square={true} onChange={() => onSizeChange()} >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={this.state.highlighted ? classes.highlighted : ''}>
-          <span style={{ width: '20%' }}>{formatDate(day.date)}</span>
-          <span style={day.spending < -50000 ? {color: '#F00'} : {}} align="right">{formatCurrency(day.spending)}</span>
-          <span align="right">{formatCurrency(day.income)}</span>
-          <span align="right">{formatCurrency(day.rent)}</span>
-          <span align="right">{formatCurrency(day.balance)}</span>
-          <span align="right">{formatCurrency(day.amortisedBalance)}</span>
-          <span align="right">{formatCurrency(day.spendingSoFarThisMonth)}</span>
+          <Grid container style={{ width: '90%', margin: 'auto' }}>
+            <Grid item xs={2}>{formatDate(day.date)}</Grid>
+            <Grid item xs style={{ textAlign: 'right', ...(day.spending < -50000 ? {color: '#F00'} : {}) }}>{formatCurrency(day.spending)}</Grid>
+            <Grid item xs style={{ textAlign: 'right' }}>{formatCurrency(day.income)}</Grid>
+            <Grid item xs style={{ textAlign: 'right' }}>{formatCurrency(day.rent)}</Grid>
+            <Grid item xs style={{ textAlign: 'right' }}>{formatCurrency(day.balance)}</Grid>
+            <Grid item xs style={{ textAlign: 'right' }}>{formatCurrency(day.amortisedBalance)}</Grid>
+            <Grid item xs style={{ textAlign: 'right' }}>{formatCurrency(day.spendingSoFarThisMonth)}</Grid>
+          </Grid>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           {Object.keys(day.transactions).length > 0
             ? Object.entries(day.transactions).map(([name, transactions]) => (
-                <TransactionTable key={name} title={name} transactions={transactions} />
+              <TransactionTable key={name} title={name} transactions={transactions} />
             ))
             : (<div>No Transactions</div>)
           }

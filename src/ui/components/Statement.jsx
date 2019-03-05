@@ -1,8 +1,6 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CellMeasurer, {
@@ -21,7 +19,7 @@ const styles = theme => ({
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
-  section: { width: '70%', margin: '50px auto' },
+  titles: { padding: '0 131px 0 64px' },
   tableContent: { height: '400px' },
 });
 
@@ -39,19 +37,17 @@ class Statement extends React.Component {
     return (
       <Paper className={classes.main}>
         <Paper >
-          <Table width="100%">
-            <TableHead>
-              <TableRow>
-                <TableCell style={{ width: '20%' }}>Date</TableCell>
-                <TableCell>Spending</TableCell>
-                <TableCell>Income</TableCell>
-                <TableCell>Rent</TableCell>
-                <TableCell>Balance</TableCell>
-                <TableCell>Amortised Balance</TableCell>
-                <TableCell>Spending This Month</TableCell>
-              </TableRow>
-            </TableHead>
-          </Table>
+          <div className={classes.titles}>
+            <Grid container>
+              <Grid item xs={2}>Date</Grid>
+              <Grid item xs style={{ textAlign: 'right' }}>Spending</Grid>
+              <Grid item xs style={{ textAlign: 'right' }}>Income</Grid>
+              <Grid item xs style={{ textAlign: 'right' }}>Rent</Grid>
+              <Grid item xs style={{ textAlign: 'right' }}>Balance</Grid>
+              <Grid item xs style={{ textAlign: 'right' }}>Amortised Balance</Grid>
+              <Grid item xs style={{ textAlign: 'right' }}>Spending This Month</Grid>
+            </Grid>
+          </div>
           <div className={classes.tableContent} >
             <AutoSizer>
               {({width}) => (
